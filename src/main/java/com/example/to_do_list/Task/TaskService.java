@@ -16,4 +16,27 @@ public class TaskService {
     public List<Task> getTasks(){
         return taskRepository.findAll();
     }
+
+    //TODO
+    public boolean addNewTask(Task task) {
+        return true;
+    }
+
+    public boolean deleteTask(Long taskId) {
+        return true;
+    }
+
+    public boolean updateTask(
+            Long taskId,
+            String title,
+            String description,
+            String dueDate,
+            TaskPriority priority
+    ) {
+        return true;
+    }
+
+    public boolean checkTask(Long taskId, boolean completed) {
+        return true;
+    }
 }

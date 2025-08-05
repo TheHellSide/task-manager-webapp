@@ -19,7 +19,6 @@ public class UserController {
         return userService.getUsers();
     }
 
-    // TODO: POST, DELETE, PUT in Service
     @PostMapping
     public ResponseEntity<String> registerNewUser(@RequestBody User user) {
         boolean registered = userService.registerNewUser(user);
@@ -55,16 +54,27 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
     }
 
+    @PostMapping(path = "{userId}/verify-password")
+    public ResponseEntity<String> verifyOldPassword(
+            @PathVariable Long userId,
+            @RequestBody PasswordRequest passwordRequest) {
+
+        boolean valid = userService.checkPassword(userId, passwordRequest.getPassword());
+        if (valid) {
+            return ResponseEntity.ok("Password verified.");
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password.");
+    }
+
     @PutMapping(path = "{userId}/password")
     public ResponseEntity<String> updateUserPassword(
             @PathVariable Long userId,
-            @RequestParam(required = false) String password
-    ) {
-        boolean updated = userService.updateUserPassword(userId, password);
+            @RequestBody PasswordRequest passwordRequest) {
+
+        boolean updated = userService.updateUserPassword(userId, passwordRequest.getPassword());
         if (updated) {
             return ResponseEntity.ok("Password successfully updated.");
         }
-
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
     }
 

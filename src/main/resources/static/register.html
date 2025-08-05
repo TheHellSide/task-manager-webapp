@@ -63,6 +63,10 @@
       </div>
       <button type="submit" class="btn btn-primary w-100">Register</button>
     </form>
+
+    <!-- Div errore stile Bootstrap -->
+    <div id="errorMsg" class="alert alert-danger mt-3 text-center fw-semibold" role="alert" style="display:none;"></div>
+
     <div class="mt-3 text-center">
       <a href="login.html">Already have an account? Login</a>
     </div>
@@ -71,5 +75,45 @@
 
 <script src="js/theme-toggle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const API_URL = 'http://localhost:8080/api/v1/user';
+  const errorDiv = document.getElementById('errorMsg');
+
+  document.getElementById('registerForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    errorDiv.style.display = 'none';
+    errorDiv.textContent = '';
+
+    const email = document.getElementById('email').value.trim();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+
+    const userData = { email, username, password };
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      });
+
+      if (response.status === 201) {
+        // Registrazione riuscita: redirect al login senza alert
+        window.location.href = 'login.html';
+      } else if (response.status === 400) {
+        const errorMessage = await response.text();
+        errorDiv.textContent = "Registration failed: " + errorMessage;
+        errorDiv.style.display = 'block';
+      } else {
+        errorDiv.textContent = 'Unexpected error: ' + response.statusText;
+        errorDiv.style.display = 'block';
+      }
+    } catch (error) {
+      errorDiv.textContent = 'Network error: ' + error.message;
+      errorDiv.style.display = 'block';
+    }
+  });
+</script>
 </body>
 </html>

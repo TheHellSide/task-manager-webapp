@@ -17,13 +17,13 @@ public class UserConfiguration {
                     "admin123"
             );
 
-            User joe = new User(
-                    "joe@admin.com",
-                    "Joe",
-                    "joe123"
+            User anonymous = new User(
+                    "anonymous@admin.com",
+                    "Anonymous",
+                    ""
             );
 
-            for (User user : List.of(admin, joe)){
+            for (User user : List.of(admin, anonymous)){
                 if (!userExists(userRepository, user.getEmail())){
                     userRepository.save(user);
                 }

@@ -3,7 +3,6 @@ package com.example.to_do_list.Task;
 import com.example.to_do_list.User.User;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -29,6 +28,7 @@ public class Task {
 
     private String title;
     private String description;
+    private LocalDate creationDate;
     private LocalDate dueDate;
     private TaskPriority priority;
     private boolean completed;
@@ -40,6 +40,7 @@ public class Task {
     public Task(String title, String description, LocalDate dueDate, TaskPriority priority, User user) {
         this.title = title;
         this.description = description;
+        this.creationDate = LocalDate.now();
         this.dueDate = dueDate;
         this.priority = priority;
         this.completed = false;
@@ -69,6 +70,14 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     public LocalDate getDueDate() {

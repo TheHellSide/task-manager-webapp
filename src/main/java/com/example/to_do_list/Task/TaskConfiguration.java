@@ -24,11 +24,11 @@ public class TaskConfiguration {
                     joe
             );
 
-            for (Task task : List.of(new_Task)) {
-                if (!taskRepository.findAll().contains(task)){
-                    taskRepository.save(task);
-                }
-            }
+//            for (Task task : List.of(new_Task)) {
+//                if (!taskRepository.findAll().contains(task)){
+//                    taskRepository.save(task);
+//                }
+//            }
         };
     }
 }

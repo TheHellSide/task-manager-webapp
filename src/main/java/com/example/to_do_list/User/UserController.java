@@ -14,10 +14,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    /* USER_INFORMATIONS (DATABASE DUMP)
     @GetMapping
     public List<User> users(){
         return userService.getUsers();
     }
+     */
 
     @PostMapping
     public ResponseEntity<String> registerNewUser(@RequestBody User user) {

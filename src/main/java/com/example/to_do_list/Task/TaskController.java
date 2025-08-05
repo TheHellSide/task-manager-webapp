@@ -14,10 +14,12 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    /* TASKS_INFORMATIONS (DATABASE DUMP)
     @GetMapping
     public List<Task> tasks(){
         return taskService.getTasks();
     }
+    */
 
 //    // TODO: POST, DELETE, PUT in Service
 //    @PostMapping

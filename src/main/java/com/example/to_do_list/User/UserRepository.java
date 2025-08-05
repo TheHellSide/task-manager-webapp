@@ -2,6 +2,7 @@ package com.example.to_do_list.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
@@ -10,4 +11,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.email = ?1")
     Optional<User> findUserByEmail(String email);
+
+    @Query("SELECT u FROM User u WHERE u.username = :username AND u.password = :password")
+    User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 }

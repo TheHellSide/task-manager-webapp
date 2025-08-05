@@ -16,4 +16,9 @@ public class UserService {
     public List<User> getUsers(){
         return userRepository.findAll();
     }
+
+    public User login(String username, String password) {
+        return userRepository.findByUsernameAndPassword(username, password);
+    }
+
 }

@@ -1,16 +1,41 @@
 package com.example.to_do_list.Task;
 
 import com.example.to_do_list.User.User;
+import com.fasterxml.jackson.annotation.*;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
+@Table
 public class Task {
-    private long id;
+    @Id
+    @SequenceGenerator(
+            name = "task_sequence",
+            sequenceName = "task_sequence",
+            allocationSize = 1
+    )
+
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "task_sequence"
+    )
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
+
     private String title;
     private String description;
     private LocalDate dueDate;
     private TaskPriority priority;
     private boolean completed;
-    private User user;
+
+    public Task() {
+
+    }
 
     public Task(String title, String description, LocalDate dueDate, TaskPriority priority, User user) {
         this.title = title;
@@ -21,12 +46,13 @@ public class Task {
         this.user = user;
     }
 
-    public long getId() {
-        return id;
+    @JsonProperty("user_id")
+    public Long getUser_id() {
+        return user != null ? user.getId() : null;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public long getId() {
+        return id;
     }
 
     public String getTitle() {

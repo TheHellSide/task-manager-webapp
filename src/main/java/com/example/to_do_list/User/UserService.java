@@ -22,7 +22,6 @@ public class UserService {
         return userRepository.findByUsernameAndPassword(username, password);
     }
 
-    //TODO
     public boolean registerNewUser(User user) {
         Optional<User> optionalUser = Optional.ofNullable(userRepository
                 .findByUsernameOrEmail(user.getUsername(), user.getEmail()));
@@ -60,11 +59,19 @@ public class UserService {
         User user = optionalUser.get();
 
         if (username != null && !username.isBlank() && !username.equals(user.getUsername())) {
-            user.setUsername(username);
+            Optional<User> userOptional = userRepository
+                    .findUserByUsername(username);
+
+            if (userOptional.isEmpty())
+                user.setUsername(username);
         }
 
         if (email != null && !email.isBlank() && !email.equals(user.getEmail())) {
-            user.setEmail(email);
+            Optional<User> userOptional = userRepository
+                    .findUserByEmail(email);
+
+            if (userOptional.isEmpty())
+                user.setEmail(email);
         }
 
         userRepository.save(user);

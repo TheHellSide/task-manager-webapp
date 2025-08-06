@@ -70,20 +70,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void addTask(Task task){
-        tasks.add(task);
-    }
-
-    public void removeTask(Task task){ //TODO
-        tasks.remove(task);
-    }
-
-    public void clearTasks(){
-        tasks.clear();
-    }
 }

@@ -24,16 +24,16 @@ public class UserConfiguration {
             );
 
             for (User user : List.of(admin, anonymous)){
-                if (!userExists(userRepository, user.getEmail())){
+                if (!userExists(userRepository, user.getUsername(), user.getEmail())){
                     userRepository.save(user);
                 }
             }
         };
     }
 
-    private boolean userExists(UserRepository userRepository, String email){
+    private boolean userExists(UserRepository userRepository, String username, String email){
         Optional<User> userOptional = userRepository
-                .findUserByEmail(email);
+                .findUserByUsernameOrEmail(username, email);
 
         return userOptional.isPresent();
     }

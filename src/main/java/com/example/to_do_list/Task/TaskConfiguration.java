@@ -28,7 +28,7 @@ public class TaskConfiguration {
 
 
             for (Task task : List.of(new_Task)) {
-                if (!taskRepository.findAll().contains(task)){
+                if (taskRepository.count() == 0){
                     taskRepository.save(task);
                 }
             }

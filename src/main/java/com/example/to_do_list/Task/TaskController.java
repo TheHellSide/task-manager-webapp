@@ -1,5 +1,6 @@
 package com.example.to_do_list.Task;
 
+import com.example.to_do_list.User.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,13 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addNewTask(@RequestBody Task task){
-        boolean added = taskService.addNewTask(task);
+    public ResponseEntity<String> addNewTask(@RequestBody TaskRequestDTO taskDTO) {
+        boolean added = taskService.addNewTask(taskDTO);
         if (added) {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Task successfully added to the workspace.");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Task successfully added.");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong while saving the task.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found or error while saving task.");
     }
 
     @DeleteMapping(path = "{taskId}")
@@ -40,15 +41,27 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Task not found.");
     }
 
+    @GetMapping(path = "{taskId}")
+    public ResponseEntity<Task> getTaskById(@PathVariable Long taskId) {
+        Optional<Task> task = taskService.getTaskById(taskId);
+        if (task.isPresent()) {
+            return ResponseEntity.ok(task.get());
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     @PutMapping(path = "{taskId}")
     public ResponseEntity<String> updateTask(
             @PathVariable Long taskId,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String description,
-            @RequestParam(required = false) String dueDate,
-            @RequestParam(required = false) TaskPriority priority
+            @RequestBody TaskRequestDTO taskDTO
     ) {
-        boolean updated = taskService.updateTask(taskId, title, description, dueDate, priority);
+        boolean updated = taskService.updateTask(taskId,
+                taskDTO.getTitle(),
+                taskDTO.getDescription(),
+                taskDTO.getDueDate(),  // passa LocalDate direttamente
+                taskDTO.getPriority()
+        );
         if (updated) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Task information successfully updated.");
         }

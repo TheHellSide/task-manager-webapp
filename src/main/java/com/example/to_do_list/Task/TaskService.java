@@ -1,5 +1,7 @@
 package com.example.to_do_list.Task;
 
+import com.example.to_do_list.User.User;
+import com.example.to_do_list.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -9,17 +11,33 @@ import java.util.Optional;
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Task> getTasks(){
         return taskRepository.findAll();
     }
 
-    public boolean addNewTask(Task task) {
+    public boolean addNewTask(TaskRequestDTO taskDto) {
+        Optional<User> userOptional = userRepository.findById(taskDto.getUser_id());
+        if (userOptional.isEmpty()) {
+            return false;
+        }
+
+        Task task = new Task();
+        task.setTitle(taskDto.getTitle());
+        task.setDescription(taskDto.getDescription());
+        task.setDueDate(taskDto.getDueDate());
+        task.setPriority(taskDto.getPriority());
+        task.setUser(userOptional.get());
+        task.setCreationDate(LocalDate.now());
+        task.setCompleted(false);
+
         taskRepository.save(task);
         return true;
     }
@@ -36,11 +54,15 @@ public class TaskService {
         return false;
     }
 
+    public Optional<Task> getTaskById(Long taskId) {
+        return taskRepository.findById(taskId);
+    }
+
     public boolean updateTask(
             Long taskId,
             String title,
             String description,
-            String dueDate,
+            LocalDate dueDate,
             TaskPriority priority
     ) {
         Optional<Task> optionalTask = taskRepository.findById(taskId);
@@ -58,8 +80,8 @@ public class TaskService {
             task.setDescription(description);
         }
 
-        if (dueDate != null && !dueDate.isBlank()) { //TODO: VERIFY THE DATA.
-            task.setDueDate(LocalDate.parse(dueDate));
+        if (dueDate != null) {
+            task.setDueDate(dueDate);
         }
 
         if (priority != null) {

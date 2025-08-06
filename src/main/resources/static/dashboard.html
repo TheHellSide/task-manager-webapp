@@ -2,16 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>To-Do - Dashboard</title>
 
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
   <style>
     body { overflow: hidden; }
-    .task-card { transition: box-shadow 0.2s ease; }
-    .task-card:hover { box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+    .task-card {
+      transition: box-shadow 0.2s ease;
+      color: white;
+    }
+    .task-card:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    .priority-high {
+      background-color: #dc3545; /* rosso */
+    }
+    .priority-medium {
+      background-color: #ffc107; /* giallo */
+      color: black;
+    }
+    .priority-low {
+      background-color: #198754; /* verde */
+    }
     .form-control, .form-select, textarea {
       background-color: var(--bs-body-bg);
       color: var(--bs-body-color);
@@ -34,12 +49,10 @@
     #tasksList { overflow-y: auto; }
   </style>
 
-  <!-- Theme and auth check -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const userStr = localStorage.getItem('loggedUser');
       if (!userStr) window.location.href = 'login.html';
-      else JSON.parse(userStr); // already parsed below
     });
 
     (function () {
@@ -67,10 +80,13 @@
       </div>
     </div>
 
-    <!-- Right: New Task Form -->
+    <!-- Right: New/Edit Task Form -->
     <div class="col-md-6 p-4 d-flex flex-column">
-      <h3 class="mb-4">Create New Task</h3>
+      <h3 id="formTitle" class="mb-4">Create New Task</h3>
       <form id="taskForm">
+        <!-- Hidden input to store task id for editing -->
+        <input type="hidden" id="taskId" />
+
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
           <input type="text" id="title" name="title" class="form-control" required />
@@ -78,6 +94,10 @@
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
           <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="creationDate" class="form-label">Creation Date</label>
+          <input type="text" id="creationDate" class="form-control" readonly disabled />
         </div>
         <div class="mb-3">
           <label for="dueDate" class="form-label">Due Date</label>
@@ -92,16 +112,18 @@
             <option value="HIGH">High</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Add Task</button>
+
+        <button type="submit" id="submitBtn" class="btn btn-primary w-100">Add Task</button>
+        <button type="button" id="cancelEditBtn" class="btn btn-secondary w-100 mt-2 d-none">Cancel Edit</button>
       </form>
     </div>
   </div>
 </div>
 
-<!-- JavaScript logic -->
+<!-- JS logic -->
 <script src="js/theme-toggle.js"></script>
 <script>
-  const apiBase = "/api/v1/task";
+  const API_URL = "/api/v1/task";
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
 
   document.getElementById('logoutBtn')?.addEventListener('click', () => {
@@ -111,15 +133,15 @@
 
   function getPriorityClass(priority) {
     switch (priority) {
-      case "HIGH": return "danger";
-      case "MEDIUM": return "warning";
-      case "LOW": return "secondary";
-      default: return "light";
+      case "HIGH": return "priority-high";
+      case "MEDIUM": return "priority-medium";
+      case "LOW": return "priority-low";
+      default: return "";
     }
   }
 
   function loadTasks() {
-    fetch(apiBase)
+    fetch(API_URL)
       .then(response => {
         if (!response.ok) throw new Error("Failed to fetch tasks");
         return response.json();
@@ -128,7 +150,6 @@
         const tasksList = document.getElementById("tasksList");
         tasksList.innerHTML = "";
 
-        // FILTRA le task dell'utente loggato
         const userTasks = tasks.filter(task => task.user_id === loggedUser.id);
 
         if (userTasks.length === 0) {
@@ -142,17 +163,21 @@
 
         userTasks.forEach(task => {
           const card = document.createElement("div");
-          card.className = "card mb-3 task-card";
+          card.className = `card mb-3 task-card ${getPriorityClass(task.priority)}`;
           card.innerHTML = `
             <div class="card-body">
               <h5 class="card-title">${task.title}</h5>
               <p class="card-text">${task.description}</p>
-              <p class="card-text"><small class="text-muted">Due: ${task.dueDate}</small></p>
-              <span class="badge bg-${getPriorityClass(task.priority)}">${task.priority}</span>
+              <p class="card-text">
+                <small>Created: ${task.creationDate}</small><br/>
+                <small>Due: ${task.dueDate}</small>
+              </p>
+              <span class="badge bg-light text-dark">${task.priority}</span>
               <div class="mt-3">
                 <button class="btn btn-sm btn-${task.completed ? 'secondary' : 'success'} me-2" onclick="completeTask(${task.id})">
                   ${task.completed ? "Undo" : "Complete"}
                 </button>
+                <button class="btn btn-sm btn-warning me-2" onclick="startEditTask(${task.id})">Edit</button>
                 <button class="btn btn-sm btn-danger" onclick="deleteTask(${task.id})">Delete</button>
               </div>
             </div>
@@ -163,38 +188,96 @@
       .catch(error => console.error(error));
   }
 
+  function clearForm() {
+    document.getElementById("formTitle").textContent = "Create New Task";
+    document.getElementById("submitBtn").textContent = "Add Task";
+    document.getElementById("cancelEditBtn").classList.add("d-none");
+    document.getElementById("taskId").value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("creationDate").value = "";
+    document.getElementById("dueDate").value = "";
+    document.getElementById("priority").value = "";
+  }
+
+  function startEditTask(id) {
+    fetch(`${API_URL}/${id}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch task");
+        return res.json();
+      })
+      .then(task => {
+        document.getElementById("formTitle").textContent = "Edit Task";
+        document.getElementById("submitBtn").textContent = "Save Changes";
+        document.getElementById("cancelEditBtn").classList.remove("d-none");
+
+        document.getElementById("taskId").value = task.id;
+        document.getElementById("title").value = task.title;
+        document.getElementById("description").value = task.description;
+        document.getElementById("creationDate").value = task.creationDate;
+        document.getElementById("dueDate").value = task.dueDate;
+        document.getElementById("priority").value = task.priority;
+      })
+      .catch(err => alert(err));
+  }
+
+  document.getElementById("cancelEditBtn").addEventListener("click", () => {
+    clearForm();
+  });
+
   document.getElementById("taskForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const form = e.target;
 
-    const task = {
+    const taskId = document.getElementById("taskId").value;
+
+    const taskPayload = {
       title: form.title.value,
       description: form.description.value,
-      dueDate: form.dueDate.value,
+      dueDate: form.dueDate.value || null,
       priority: form.priority.value,
-      user: { id: loggedUser.id }
+      user_id: loggedUser.id
     };
 
-    fetch(apiBase, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(task)
-    })
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to create task");
-        return res.text();
+
+    if (taskId) {
+      // Update existing task (PUT)
+      fetch(`${API_URL}/${taskId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(taskPayload)
       })
-      .then(() => {
-        form.reset();
-        loadTasks();
+        .then(res => {
+          if (!res.ok) throw new Error("Failed to update task");
+          return res.text();
+        })
+        .then(() => {
+          clearForm();
+          loadTasks();
+        })
+        .catch(err => alert(err));
+    } else {
+      // Create new task (POST)
+      fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(taskPayload)
       })
-      .catch(err => alert(err));
+        .then(res => {
+          if (!res.ok) throw new Error("Failed to create task");
+          return res.text();
+        })
+        .then(() => {
+          clearForm();
+          loadTasks();
+        })
+        .catch(err => alert(err));
+    }
   });
 
   function deleteTask(id) {
-    fetch(`${apiBase}/${id}`, {
-      method: "DELETE"
-    })
+    // senza popup di conferma
+    fetch(`${API_URL}/${id}`, { method: "DELETE" })
       .then(res => {
         if (!res.ok) throw new Error("Failed to delete task");
         return res.text();
@@ -204,9 +287,7 @@
   }
 
   function completeTask(id) {
-    fetch(`${apiBase}/${id}/check`, {
-      method: "PUT"
-    })
+    fetch(`${API_URL}/${id}/check`, { method: "PUT" })
       .then(res => {
         if (!res.ok) throw new Error("Failed to update task status");
         return res.text();

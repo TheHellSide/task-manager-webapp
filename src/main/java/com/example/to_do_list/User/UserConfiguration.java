@@ -13,11 +13,13 @@ public class UserConfiguration {
     @Order(1)
     CommandLineRunner userCommandLineRunner (UserRepository userRepository){
         return args -> {
+            /*
             User admin = new User(
                     "admin@admin.com",
                     "admin",
                     "admin123"
             );
+             */
 
             User anonymous = new User(
                     "anonymous@admin.com",
@@ -25,7 +27,7 @@ public class UserConfiguration {
                     ""
             );
 
-            for (User user : List.of(admin, anonymous)){
+            for (User user : List.of(anonymous)){
                 if (!userExists(userRepository, user.getUsername(), user.getEmail())){
                     userRepository.save(user);
                 }

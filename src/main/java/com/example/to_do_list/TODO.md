@@ -1,4 +1,2 @@
-### TODOs:
-- TASK HANDLING UI/UX
-- TASK & USER_CONFIGURATION (CREATE A USER `PUBLIC`) 
-- AUTHENTICATION IN TASK HANDLING
+# TODOs
+### Optional<To-Do> to-do = Optional.empty();

@@ -5,7 +5,7 @@ This project is meant to help you manage your tasks and users efficiently while 
 
 ## Features
 
-- Create, Read, Update, Delete (CRUD) tasks
+- Create, Read, Update, Delete (CRUD) tasks with APIs
 - Task prioritization (via `TaskPriority`)
 - User registration & login
 - User management with services and repositories
@@ -16,11 +16,11 @@ This project is meant to help you manage your tasks and users efficiently while 
 
 ## Tech Stack
 
-- Java 17+
+- Java 17+ (Java 24)
 - Spring Boot
 - Spring Data JPA
 - Thymeleaf
-- H2 / MySQL (configurable)
+- MySQL (configurable)
 - HTML/CSS/JS
 - Maven
 
@@ -78,7 +78,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-Made with ☕ by **TheHellSide**
+Made with by **TheHellSide**
 Follow me on [GitHub](https://github.com/TheHellSide)
 
 ## Support

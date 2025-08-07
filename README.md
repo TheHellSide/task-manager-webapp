@@ -1,4 +1,4 @@
-# 📝 To-Do List App (Spring Boot)
+# To-Do List App (Spring Boot)
 
 A simple and powerful To-Do List web application built with **Java**, **Spring Boot**, and **Thymeleaf**.
 This project is meant to help you manage your tasks and users efficiently while also serving as a cool portfolio project!

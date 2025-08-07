@@ -1,9 +1,9 @@
-# To-Do List App (Spring Boot)
+# 📝 To-Do List App (Spring Boot)
 
 A simple and powerful To-Do List web application built with **Java**, **Spring Boot**, and **Thymeleaf**.
 This project is meant to help you manage your tasks and users efficiently while also serving as a cool portfolio project!
 
-## Features
+## 🧠 Features
 
 - Create, Read, Update, Delete (CRUD) tasks with APIs
 - Task prioritization (via `TaskPriority`)
@@ -14,7 +14,7 @@ This project is meant to help you manage your tasks and users efficiently while 
 - Data persistence with Spring Data JPA & SQL
 - Pre-configured SQL schema included
 
-## Tech Stack
+## 📁 Tech Stack
 
 - Java 17+ (Java 24)
 - Spring Boot
@@ -24,7 +24,7 @@ This project is meant to help you manage your tasks and users efficiently while 
 - HTML/CSS/JS
 - Maven
 
-## Project Structure
+## 💾 Project Structure
 
 ```bash
 src
@@ -41,8 +41,7 @@ src
     └── ...                         # Unit and integration tests
 ```
 
-## How to Run
-Wait, if you do not know how to run it, why are you here? ;)
+## 📦 How to Run
 
 1. Clone this repository:
    ```bash
@@ -64,23 +63,22 @@ Wait, if you do not know how to run it, why are you here? ;)
    http://localhost:8080
    ```
 
-## How to Use It?
+## 📦 How to Use It?
 
-**If you don't know how to use it, why are you here? 😉**
-
+**If you don't know how to use it, why are you here? ;)**
 But seriously:
 Just register as a new user, log in, and start adding your tasks.
 Toggle between light/dark themes and manage your daily life like a pro.
 
-## License
+## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
 
-## Author
+## 👥 Author
 
 Made with by **TheHellSide**
 Follow me on [GitHub](https://github.com/TheHellSide)
 
-## Support
+## ⭐️ Support
 
 If you like this project, leave a star — it helps a lot!

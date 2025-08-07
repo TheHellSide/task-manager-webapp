@@ -324,7 +324,6 @@
   });
 
   function deleteTask(id) {
-    // senza popup di conferma
     fetch(`${API_URL}/${id}`, { method: "DELETE" })
       .then(res => {
         if (!res.ok) throw new Error("Failed to delete task");

@@ -1,4 +1,4 @@
-package com.example.to_do_list.User;
+package com.example.to_do_list.User.Logs;
 
 public class LoginRequest {
     private String username;

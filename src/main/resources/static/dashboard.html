@@ -1,185 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>To-Do - Dashboard</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <style>
-    body { overflow: hidden; }
-    .task-card {
-      transition: box-shadow 0.2s ease;
-      color: white;
-    }
-    #tasksList {
-      overflow-y: auto; /* GENERATE THE SCROLLBAR */
-      flex-grow: 1;
-      min-height: 0; /* FLEXBOX + OVERFLOW */
-      padding-right: 0.5rem;
-      scrollbar-gutter: stable both-edges;
-    }
-    .left-panel {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    .task-card:hover {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
-    #tasksList::-webkit-scrollbar {
-      width: 7px;
-    }
-
-    #tasksList::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    #tasksList::-webkit-scrollbar-thumb {
-      background: rgba(100, 100, 100, 0.3); /* GREY WITH TRANSPARENCY */
-      border-radius: 4px;
-    }
-
-    #tasksList::-webkit-scrollbar-thumb:hover {
-      background: rgba(100, 100, 100, 0.5);
-    }
-   .priority-high {
-      color: #dc3545; /* RED */
-      font-weight: bold;
-    }
-    .priority-medium {
-      color: #ffc107; /* YELLOW */
-      font-weight: bold;
-    }
-    .priority-low {
-      color: #198754; /* GREEN */
-      font-weight: bold;
-    }
-    .form-control, .form-select, textarea {
-      background-color: var(--bs-body-bg);
-      color: var(--bs-body-color);
-      border-color: var(--bs-border-color);
-    }
-    .form-control:focus, .form-select:focus, textarea:focus {
-      background-color: var(--bs-body-bg);
-      color: var(--bs-body-color);
-    }
-    .users-btn { position: absolute; top: 1rem; right: 6rem; }
-    .theme-toggle { position: absolute; top: 1rem; right: 9rem; }
-    .logout-btn { position: absolute; top: 1rem; right: 1rem; }
-    .no-tasks-message {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--bs-secondary-color);
-    }
-
-    /* THEME-TOGLE */
-    [data-bs-theme="light"] .task-title {
-      color: black;
-    }
-
-    [data-bs-theme="dark"] .task-title {
-      color: white;
-    }
-
-    [data-bs-theme="light"] .task-description,
-    [data-bs-theme="light"] .data-title,
-    [data-bs-theme="light"] .data-content {
-      color: #333333;
-    }
-
-    [data-bs-theme="dark"] .task-description,
-    [data-bs-theme="dark"] .data-title,
-    [data-bs-theme="dark"] .data-content {
-      color: #dddddd;
-    }
-  </style>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const userStr = localStorage.getItem('loggedUser');
-      if (!userStr) window.location.href = 'login.html';
-    });
-
-    (function () {
-      const theme = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>To-Do - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        /* Stili originali mantenuti così come li avevi */
+        body { overflow: hidden; }
+        .task-card { transition: box-shadow 0.2s ease; color: white; }
+        #tasksList { overflow-y: auto; flex-grow: 1; min-height: 0; padding-right: 0.5rem; scrollbar-gutter: stable both-edges; }
+        .left-panel { display: flex; flex-direction: column; height: 100%; }
+        .task-card:hover { box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); }
+        #tasksList::-webkit-scrollbar { width: 7px; }
+        #tasksList::-webkit-scrollbar-track { background: transparent; }
+        #tasksList::-webkit-scrollbar-thumb { background: rgba(100, 100, 100, 0.3); border-radius: 4px; }
+        #tasksList::-webkit-scrollbar-thumb:hover { background: rgba(100, 100, 100, 0.5); }
+        .priority-high { color: #dc3545; font-weight: bold; }
+        .priority-medium { color: #ffc107; font-weight: bold; }
+        .priority-low { color: #198754; font-weight: bold; }
+        .form-control, .form-select, textarea { background-color: var(--bs-body-bg); color: var(--bs-body-color); border-color: var(--bs-border-color); }
+        .form-control:focus, .form-select:focus, textarea:focus { background-color: var(--bs-body-bg); color: var(--bs-body-color); }
+        .users-btn { position: absolute; top: 1rem; right: 6rem; }
+        .theme-toggle { position: absolute; top: 1rem; right: 9rem; }
+        .logout-btn { position: absolute; top: 1rem; right: 1rem; }
+        .no-tasks-message { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--bs-secondary-color); }
+        [data-bs-theme="light"] .task-title { color: black; }
+        [data-bs-theme="dark"] .task-title { color: white; }
+        [data-bs-theme="light"] .task-description,
+        [data-bs-theme="light"] .data-title,
+        [data-bs-theme="light"] .data-content { color: #333333; }
+        [data-bs-theme="dark"] .task-description,
+        [data-bs-theme="dark"] .data-title,
+        [data-bs-theme="dark"] .data-content { color: #dddddd; }
+    </style>
+    <script>
+        (function () {
+          const theme = localStorage.getItem("theme") || "light";
+          document.documentElement.setAttribute("data-bs-theme", theme);
+        })();
+    </script>
 </head>
-
 <body class="bg-body text-body">
 
 <!-- Top-right controls -->
 <button class="btn btn-outline-secondary theme-toggle" id="themeBtn">🌙</button>
 <a href="user.html" class="btn btn-outline-success users-btn">👤</a>
-<a href="index.html" id="logoutBtn" class="btn btn-outline-danger logout-btn"><b>Logout</b></a>
+<a id="logoutBtn" class="btn btn-outline-danger logout-btn"><b>Logout</b></a>
 
+<!-- Main layout -->
 <div class="container-fluid">
-  <div class="row vh-100">
+    <div class="row vh-100">
+        <!-- Task List section -->
+        <div class="col-md-6 border-end p-4 left-panel">
+            <h3 class="mb-4">Your Tasks: </h3>
+            <div id="tasksList" class="flex-grow-1"></div>
+        </div>
 
-    <!-- Left: Task List -->
-    <div class="col-md-6 border-end p-4 left-panel">
-      <h3 class="mb-4">Your Tasks: </h3>
-      <div id="tasksList" class="flex-grow-1">
-        <!-- Tasks will be rendered here -->
-      </div>
+        <!-- Task Form section -->
+        <div class="col-md-6 p-4 d-flex flex-column">
+            <h3 id="formTitle" class="mb-4">Create New Task</h3>
+            <form id="taskForm">
+                <input type="hidden" id="taskId" />
+                <div class="mb-3"><label class="form-label">Title</label><input type="text" id="title" class="form-control" required/></div>
+                <div class="mb-3"><label class="form-label">Description</label><textarea id="description" class="form-control" rows="3" required></textarea></div>
+                <div class="mb-3"><label class="form-label">Creation Date</label><input type="text" id="creationDate" class="form-control" readonly disabled/></div>
+                <div class="mb-3"><label class="form-label">Due Date</label><input type="date" id="dueDate" class="form-control" required/></div>
+                <div class="mb-4"><label class="form-label">Priority</label><select id="priority" class="form-select" required>
+                    <option value="">Select priority</option>
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                </select></div>
+                <button type="submit" id="submitBtn" class="btn btn-primary w-100">Add Task</button>
+                <button type="button" id="cancelEditBtn" class="btn btn-secondary w-100 mt-2 d-none">Cancel Edit</button>
+            </form>
+        </div>
     </div>
-
-    <!-- Right: New/Edit Task Form -->
-    <div class="col-md-6 p-4 d-flex flex-column">
-      <h3 id="formTitle" class="mb-4">Create New Task</h3>
-      <form id="taskForm">
-        <!-- Hidden input to store task id for editing -->
-        <input type="hidden" id="taskId" />
-
-        <div class="mb-3">
-          <label for="title" class="form-label">Title</label>
-          <input type="text" id="title" name="title" class="form-control" required />
-        </div>
-        <div class="mb-3">
-          <label for="description" class="form-label">Description</label>
-          <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
-        </div>
-        <div class="mb-3">
-          <label for="creationDate" class="form-label">Creation Date</label>
-          <input type="text" id="creationDate" class="form-control" readonly disabled />
-        </div>
-        <div class="mb-3">
-          <label for="dueDate" class="form-label">Due Date</label>
-          <input type="date" id="dueDate" name="dueDate" class="form-control" required />
-        </div>
-        <div class="mb-4">
-          <label for="priority" class="form-label">Priority</label>
-          <select id="priority" name="priority" class="form-select" required>
-            <option value="">Select priority</option>
-            <option value="LOW">Low</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="HIGH">High</option>
-          </select>
-        </div>
-
-        <button type="submit" id="submitBtn" class="btn btn-primary w-100">Add Task</button>
-        <button type="button" id="cancelEditBtn" class="btn btn-secondary w-100 mt-2 d-none">Cancel Edit</button>
-      </form>
-    </div>
-  </div>
 </div>
 
-<!-- JS logic -->
 <script src="js/theme-toggle.js"></script>
 <script>
-  const API_URL = "/api/v1/task";
-  const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+  // Controllo login utente
+  const userData = JSON.parse(localStorage.getItem('loggedUser'));
 
-  document.getElementById('logoutBtn')?.addEventListener('click', () => {
-    localStorage.removeItem('loggedUser');
+  if (!userData || !userData.token) {
     window.location.href = 'login.html';
+  }
+
+  const token = userData.token;
+
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+      const userData = JSON.parse(localStorage.getItem('loggedUser'));
+
+      if (!userData || !userData.token || !userData.id) {
+        localStorage.removeItem('loggedUser');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:8080/api/v1/tokens/user/${userData.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Bearer ' + userData.token
+          }
+        });
+
+        if (!response.ok) {
+          console.warn("Token cleanup failed:", await response.text());
+        }
+      } catch (err) {
+        console.error("Logout failed:", err.message);
+      }
+
+      localStorage.removeItem('loggedUser');
+      window.location.href = 'login.html';
   });
+
+  const API_URL = "/api/v1/task";
 
   function getPriorityClass(priority) {
     switch (priority) {
@@ -191,158 +131,134 @@
   }
 
   function loadTasks() {
-    fetch(API_URL)
-      .then(response => {
-        if (!response.ok) throw new Error("Failed to fetch tasks");
-        return response.json();
-      })
-      .then(tasks => {
-        const tasksList = document.getElementById("tasksList");
-        tasksList.innerHTML = "";
+    fetch(API_URL, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+    .then(res => res.ok ? res.json() : Promise.reject("Failed to fetch tasks"))
+    .then(tasks => {
+      const tasksList = document.getElementById("tasksList");
+      tasksList.innerHTML = "";
 
-        const userTasks = tasks.filter(task => task.user_id === loggedUser.id);
+      if (!tasks || tasks.length === 0) {
+        return tasksList.innerHTML = `<div class="no-tasks-message"><p class="text-center">No tasks for you yet. Create one →</p></div>`;
+      }
 
-        if (userTasks.length === 0) {
-          tasksList.innerHTML = `
-            <div class="no-tasks-message">
-              <p class="text-center">No tasks for you yet. Create one →</p>
-            </div>
-          `;
-          return;
-        }
-
-        userTasks.forEach(task => {
-          const card = document.createElement("div");
-          card.className = `mb-3 ${getPriorityClass(task.priority)}`;
-          card.innerHTML = `
-            <h5 class="task-title"><b>${task.title}</b></h5>
-            <p class="task-description">${task.description}</p>
-            <p>
-              <small class="data-content"><span class="data-title">Created:</span> ${task.creationDate}</small><br/>
-              <small class="data-content"><span class="data-title">Due:</span> ${task.dueDate}</small>
-            </p>
-            <div style="font-weight: bold; color: inherit;">${task.priority}</div>
-            <div class="mt-3">
-              <button class="btn btn-sm btn-${task.completed ? 'secondary' : 'success'} me-2" onclick="completeTask(${task.id})">
-                ${task.completed ? "Undo" : "Complete"}
-              </button>
-              <button class="btn btn-sm btn-warning me-2" onclick="startEditTask(${task.id})">Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteTask(${task.id})">Delete</button>
-            </div>
-          `;
-          tasksList.appendChild(card);
-        });
-      })
-      .catch(error => console.error(error));
+      tasks.forEach(task => {
+        const card = document.createElement("div");
+        card.className = `mb-3 ${getPriorityClass(task.priority)}`;
+        card.innerHTML = `
+          <h5 class="task-title"><b>${task.title}</b></h5>
+          <p class="task-description">${task.description}</p>
+          <p>
+            <small class="data-content"><span class="data-title">Created:</span> ${task.creationDate}</small><br/>
+            <small class="data-content"><span class="data-title">Due:</span> ${task.dueDate}</small>
+          </p>
+          <div style="font-weight: bold; color: inherit;">${task.priority}</div>
+          <div class="mt-3">
+            <button class="btn btn-sm btn-${task.completed ? 'secondary' : 'success'} me-2" onclick="completeTask(${task.id})">
+              ${task.completed ? "Undo" : "Complete"}
+            </button>
+            <button class="btn btn-sm btn-warning me-2" onclick="startEditTask(${task.id})">Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteTask(${task.id})">Delete</button>
+          </div>
+        `;
+        tasksList.appendChild(card);
+      });
+    })
+    .catch(err => console.error(err));
   }
 
   function clearForm() {
     document.getElementById("formTitle").textContent = "Create New Task";
     document.getElementById("submitBtn").textContent = "Add Task";
     document.getElementById("cancelEditBtn").classList.add("d-none");
-    document.getElementById("taskId").value = "";
-    document.getElementById("title").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("creationDate").value = "";
-    document.getElementById("dueDate").value = "";
-    document.getElementById("priority").value = "";
+
+    ["taskId","title","description","creationDate","dueDate","priority"].forEach(id => {
+      document.getElementById(id).value = "";
+    });
   }
 
   function startEditTask(id) {
-    fetch(`${API_URL}/${id}`)
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to fetch task");
-        return res.json();
-      })
-      .then(task => {
-        document.getElementById("formTitle").textContent = "Edit Task";
-        document.getElementById("submitBtn").textContent = "Save Changes";
-        document.getElementById("cancelEditBtn").classList.remove("d-none");
+    fetch(`${API_URL}/${id}`, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+    .then(res => res.ok ? res.json() : Promise.reject("Failed to fetch task"))
+    .then(task => {
+      document.getElementById("formTitle").textContent = "Edit Task";
+      document.getElementById("submitBtn").textContent = "Save Changes";
+      document.getElementById("cancelEditBtn").classList.remove("d-none");
 
-        document.getElementById("taskId").value = task.id;
-        document.getElementById("title").value = task.title;
-        document.getElementById("description").value = task.description;
-        document.getElementById("creationDate").value = task.creationDate;
-        document.getElementById("dueDate").value = task.dueDate;
-        document.getElementById("priority").value = task.priority;
-      })
-      .catch(err => alert(err));
+      document.getElementById("taskId").value = task.id;
+      document.getElementById("title").value = task.title;
+      document.getElementById("description").value = task.description;
+      document.getElementById("creationDate").value = task.creationDate;
+      document.getElementById("dueDate").value = task.dueDate;
+      document.getElementById("priority").value = task.priority;
+    })
+    .catch(err => alert(err));
   }
 
-  document.getElementById("cancelEditBtn").addEventListener("click", () => {
-    clearForm();
-  });
+  document.getElementById("cancelEditBtn").addEventListener("click", clearForm);
 
   document.getElementById("taskForm").addEventListener("submit", (e) => {
     e.preventDefault();
-    const form = e.target;
 
     const taskId = document.getElementById("taskId").value;
-
-    const taskPayload = {
-      title: form.title.value,
-      description: form.description.value,
-      dueDate: form.dueDate.value || null,
-      priority: form.priority.value,
-      user_id: loggedUser.id
+    const payload = {
+      title: document.getElementById("title").value,
+      description: document.getElementById("description").value,
+      dueDate: document.getElementById("dueDate").value,
+      priority: document.getElementById("priority").value
     };
 
+    const method = taskId ? "PUT" : "POST";
+    const endpoint = taskId ? `${API_URL}/${taskId}` : API_URL;
 
-    if (taskId) {
-      // Update existing task (PUT)
-      fetch(`${API_URL}/${taskId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(taskPayload)
-      })
-        .then(res => {
-          if (!res.ok) throw new Error("Failed to update task");
-          return res.text();
-        })
-        .then(() => {
-          clearForm();
-          loadTasks();
-        })
-        .catch(err => alert(err));
-    } else {
-      // Create new task (POST)
-      fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(taskPayload)
-      })
-        .then(res => {
-          if (!res.ok) throw new Error("Failed to create task");
-          return res.text();
-        })
-        .then(() => {
-          clearForm();
-          loadTasks();
-        })
-        .catch(err => alert(err));
-    }
+    fetch(endpoint, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.ok ? res.text() : Promise.reject("Failed to save task"))
+    .then(() => {
+      clearForm();
+      loadTasks();
+    })
+    .catch(err => alert(err));
   });
 
   function deleteTask(id) {
-    fetch(`${API_URL}/${id}`, { method: "DELETE" })
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to delete task");
-        return res.text();
-      })
-      .then(() => loadTasks())
-      .catch(err => alert(err));
+    fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+    .then(res => res.ok ? res.text() : Promise.reject("Failed to delete task"))
+    .then(loadTasks)
+    .catch(err => alert(err));
   }
 
   function completeTask(id) {
-    fetch(`${API_URL}/${id}/check`, { method: "PUT" })
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to update task status");
-        return res.text();
-      })
-      .then(() => loadTasks())
-      .catch(err => alert(err));
+    fetch(`${API_URL}/${id}/check`, {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+    .then(res => res.ok ? res.text() : Promise.reject("Failed to update status"))
+    .then(loadTasks)
+    .catch(err => alert(err));
   }
 
+  // Avvio iniziale
   loadTasks();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

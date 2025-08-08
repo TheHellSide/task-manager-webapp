@@ -1,9 +1,12 @@
 package com.example.to_do_list.User;
 
+import com.example.to_do_list.User.Logs.LoginRequest;
+import com.example.to_do_list.User.Logs.LoginResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping(("/api/v1/user"))
@@ -13,13 +16,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    /* USER_INFORMATIONS (DATABASE DUMP)
-    @GetMapping
-    public List<User> users(){
-        return userService.getUsers();
-    }
-     */
 
     @PostMapping
     public ResponseEntity<String> registerNewUser(@RequestBody User user) {
@@ -33,8 +29,11 @@ public class UserController {
 
 
     @DeleteMapping(path = "{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
-        boolean deleted = userService.deleteUser(userId);
+    public ResponseEntity<String> deleteUser(
+            @PathVariable Long userId,
+            @RequestHeader("Authorization") String token
+    ) {
+        boolean deleted = userService.deleteUser(removeBearerPrefix(token), userId);
         if (deleted) {
             return ResponseEntity.ok("User successfully deleted.");
         }
@@ -45,10 +44,11 @@ public class UserController {
     @PutMapping(path = "{userId}")
     public ResponseEntity<String> updateUser(
             @PathVariable Long userId,
+            @RequestHeader("Authorization") String token,
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String email
     ) {
-        boolean updated = userService.updateUser(userId, username, email);
+        boolean updated = userService.updateUser(removeBearerPrefix(token), userId, username, email);
         if (updated) {
             return ResponseEntity.ok("User information successfully updated.");
         }
@@ -59,9 +59,10 @@ public class UserController {
     @PostMapping(path = "{userId}/verify-password")
     public ResponseEntity<String> verifyOldPassword(
             @PathVariable Long userId,
+            @RequestHeader("Authorization") String token,
             @RequestBody PasswordRequest passwordRequest) {
 
-        boolean valid = userService.checkPassword(userId, passwordRequest.getPassword());
+        boolean valid = userService.checkPassword(removeBearerPrefix(token), userId, passwordRequest.getPassword());
         if (valid) {
             return ResponseEntity.ok("Password verified.");
         }
@@ -71,9 +72,10 @@ public class UserController {
     @PutMapping(path = "{userId}/password")
     public ResponseEntity<String> updateUserPassword(
             @PathVariable Long userId,
+            @RequestHeader("Authorization") String token,
             @RequestBody PasswordRequest passwordRequest) {
 
-        boolean updated = userService.updateUserPassword(userId, passwordRequest.getPassword());
+        boolean updated = userService.updateUserPassword(removeBearerPrefix(token), userId, passwordRequest.getPassword());
         if (updated) {
             return ResponseEntity.ok("Password successfully updated.");
         }
@@ -82,11 +84,19 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        User user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
-        if (user != null) {
-            return ResponseEntity.ok(user);
+        Optional<LoginResponse> loginResponse = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        if (loginResponse.isPresent()) {
+            return ResponseEntity.ok(loginResponse);
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+    }
+
+    private String removeBearerPrefix(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
+        return token;
     }
 }

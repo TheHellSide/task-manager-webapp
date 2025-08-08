@@ -16,6 +16,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    //TODO: IMPLEMENT 'Token' AND AUTHENTICATION.
     @GetMapping
     public List<Task> tasks(){
         return taskService.getTasks();

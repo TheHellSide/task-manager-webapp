@@ -1,25 +1,38 @@
 package com.example.to_do_list.User;
 
+import com.example.to_do_list.Security.Token;
+import com.example.to_do_list.Security.TokenService;
+import com.example.to_do_list.User.Logs.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final TokenService tokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, TokenService tokenService) {
         this.userRepository = userRepository;
+        this.tokenService = tokenService;
     }
 
-    public List<User> getUsers(){
-        return userRepository.findAll();
-    }
+    public Optional<LoginResponse> login(String username, String password) {
+        User user = userRepository.findByUsernameAndPassword(username, password);
+        if (user == null)
+            return Optional.empty();
 
-    public User login(String username, String password) {
-        return userRepository.findByUsernameAndPassword(username, password);
+        Token userToken = tokenService.generateToken(user);
+        return Optional.of(new LoginResponse(
+                user.getId(),
+                userToken.getToken(),
+                user.getUsername(),
+                user.getEmail()
+        ));
     }
 
     public boolean registerNewUser(User user) {
@@ -34,10 +47,15 @@ public class UserService {
         return false;
     }
 
-    public boolean deleteUser(Long userId) {
+    //TODO: ADD TOKEN HANDLING.
+    public boolean deleteUser(String token, Long userId) {
         boolean exists = userRepository.existsById(userId);
 
-        if (exists) {
+        if (
+                exists &&
+                tokenService.isValidToken(token) &&
+                tokenService.isTokenValidForUser(token, userId)
+        ) {
             userRepository.deleteById(userId);
             return true;
         }
@@ -46,6 +64,7 @@ public class UserService {
     }
 
     public boolean updateUser(
+            String token,
             Long userId,
             String username,
             String email
@@ -54,6 +73,14 @@ public class UserService {
 
         if (optionalUser.isEmpty()) {
             return false;
+        }
+        else {
+            if (
+                    !tokenService.isValidToken(token) ||
+                    !tokenService.isTokenValidForUser(token, userId)
+            ) {
+                return false;
+            }
         }
 
         User user = optionalUser.get();
@@ -78,10 +105,18 @@ public class UserService {
         return true;
     }
 
-    public boolean checkPassword(Long userId, String oldPassword) {
+    public boolean checkPassword(String token, Long userId, String oldPassword) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
-            return false; // User not found
+            return false;
+        }
+        else {
+            if (
+                    !tokenService.isValidToken(token) ||
+                    !tokenService.isTokenValidForUser(token, userId)
+            ) {
+                return false;
+            }
         }
 
         User user = optionalUser.get();
@@ -92,10 +127,18 @@ public class UserService {
         return true;
     }
 
-    public boolean updateUserPassword(Long userId, String newPassword) {
+    public boolean updateUserPassword(String token, Long userId, String newPassword) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
-            return false; // User not found
+            return false;
+        }
+        else {
+            if (
+                    !tokenService.isValidToken(token) ||
+                            !tokenService.isTokenValidForUser(token, userId)
+            ) {
+                return false;
+            }
         }
 
         User user = optionalUser.get();

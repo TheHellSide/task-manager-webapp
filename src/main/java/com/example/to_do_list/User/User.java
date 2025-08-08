@@ -29,10 +29,6 @@ public class User {
     private String username;
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private final List<Task> tasks = new ArrayList<>();
-
     public User() {
 
     }

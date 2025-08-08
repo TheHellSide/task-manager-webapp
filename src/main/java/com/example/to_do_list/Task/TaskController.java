@@ -1,6 +1,5 @@
 package com.example.to_do_list.Task;
 
-import com.example.to_do_list.User.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,10 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addNewTask(@RequestBody TaskRequestDTO taskDTO) {
+    public ResponseEntity<String> addNewTask(
+            @RequestHeader("Authorization") String token,
+            @RequestBody TaskRequestDTO taskDTO
+    ) {
         boolean added = taskService.addNewTask(taskDTO);
         if (added) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Task successfully added.");
@@ -33,7 +35,10 @@ public class TaskController {
     }
 
     @DeleteMapping(path = "{taskId}")
-    public ResponseEntity<String> deleteTask(@PathVariable Long taskId) {
+    public ResponseEntity<String> deleteTask(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Long taskId
+    ) {
         boolean deleted = taskService.deleteTask(taskId);
         if (deleted) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Task successfully deleted.");
@@ -43,7 +48,10 @@ public class TaskController {
     }
 
     @GetMapping(path = "{taskId}")
-    public ResponseEntity<Task> getTaskById(@PathVariable Long taskId) {
+    public ResponseEntity<Task> getTaskById(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Long taskId
+    ) {
         Optional<Task> task = taskService.getTaskById(taskId);
         if (task.isPresent()) {
             return ResponseEntity.ok(task.get());
@@ -54,6 +62,7 @@ public class TaskController {
 
     @PutMapping(path = "{taskId}")
     public ResponseEntity<String> updateTask(
+            @RequestHeader("Authorization") String token,
             @PathVariable Long taskId,
             @RequestBody TaskRequestDTO taskDTO
     ) {
@@ -72,6 +81,7 @@ public class TaskController {
 
     @PutMapping(path = "{taskId}/check")
     public ResponseEntity<String> checkTask(
+            @RequestHeader("Authorization") String token,
             @PathVariable Long taskId
     ) {
         Optional<Boolean> checked = taskService

@@ -1,5 +1,7 @@
 package com.example.to_do_list.Task;
 
+import com.example.to_do_list.Security.TokenService;
+import com.example.to_do_list.User.UserController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +12,27 @@ import java.util.Optional;
 @RequestMapping(("/api/v1/task"))
 public class TaskController {
     private final TaskService taskService;
+    private final UserController userController;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, UserController userController) {
         this.taskService = taskService;
+        this.userController = userController;
     }
 
-    //TODO: IMPLEMENT 'Token' AND AUTHENTICATION.
     @GetMapping
-    public List<Task> tasks(){
-        return taskService.getTasks();
+    public ResponseEntity<List<Task>> getUserTasks(
+            @RequestHeader("Authorization") String token,
+            @RequestParam Long userId
+    ) {
+        Optional<List<Task>> userTaskOptional = taskService.
+                getUserTasks(userController.removeBearerPrefix(token), userId);
+
+        if (userTaskOptional.isPresent()) {
+            return ResponseEntity.ok(userTaskOptional.get());
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @PostMapping
@@ -69,7 +83,7 @@ public class TaskController {
         boolean updated = taskService.updateTask(taskId,
                 taskDTO.getTitle(),
                 taskDTO.getDescription(),
-                taskDTO.getDueDate(),  // passa LocalDate direttamente
+                taskDTO.getDueDate(),
                 taskDTO.getPriority()
         );
         if (updated) {

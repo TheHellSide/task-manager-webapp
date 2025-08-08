@@ -92,7 +92,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
 
-    private String removeBearerPrefix(String token) {
+    public String removeBearerPrefix(String token) {
         if (token.startsWith("Bearer ")) {
             token = token.substring(7);
         }

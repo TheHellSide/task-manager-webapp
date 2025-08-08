@@ -1,5 +1,7 @@
 package com.example.to_do_list.Task;
 
+import com.example.to_do_list.Security.TokenRepository;
+import com.example.to_do_list.Security.TokenService;
 import com.example.to_do_list.User.User;
 import com.example.to_do_list.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +14,39 @@ import java.util.Optional;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final TokenService tokenService;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository, TokenService tokenService) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.tokenService = tokenService;
     }
 
-    public List<Task> getTasks(){
-        return taskRepository.findAll();
+    public Optional<List<Task>> getUserTasks(String token, Long userId){
+        Optional<User> userOptional = userRepository.
+                findById(userId);
+
+        if (userOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        else {
+            if (
+                    !tokenService.isValidToken(token) ||
+                    !tokenService.isTokenValidForUser(token, userId)
+            ) {
+                return Optional.empty();
+            }
+        }
+
+        User user = userOptional.get();
+        return Optional.of(taskRepository.findAllByUser(user));
     }
 
     public boolean addNewTask(TaskRequestDTO taskDto) {
-        Optional<User> userOptional = userRepository.findById(taskDto.getUser_id());
+        Optional<User> userOptional = userRepository.
+                findById(taskDto.getUser_id());
+
         if (userOptional.isEmpty()) {
             return false;
         }

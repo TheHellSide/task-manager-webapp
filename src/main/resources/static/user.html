@@ -75,47 +75,18 @@
 </div>
 
 <script src="js/theme-toggle.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/logout.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
       const loggedUserStr = localStorage.getItem('loggedUser');
       if (!loggedUserStr) {
-      //  window.location.href = 'login.html';
-      //  return;
+        window.location.href = 'login.html';
+        return;
       }
 
       const loggedUser = JSON.parse(loggedUserStr);
       document.getElementById('username').value = loggedUser.username;
       document.getElementById('email').value = loggedUser.email;
-
-    // Logout button - full logout with API call
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
-      const userData = JSON.parse(localStorage.getItem('loggedUser'));
-
-      if (!userData || !userData.token || !userData.id) {
-        localStorage.removeItem('loggedUser');
-        window.location.href = 'login.html';
-        return;
-      }
-
-      try {
-        const response = await fetch(`http://localhost:8080/api/v1/tokens/user/${userData.id}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': 'Bearer ' + userData.token
-          }
-        });
-
-        if (!response.ok) {
-          console.warn("Token cleanup failed:", await response.text());
-        }
-      } catch (err) {
-        console.error("Logout failed:", err.message);
-      }
-
-      localStorage.removeItem('loggedUser');
-      window.location.href = 'login.html';
-    });
 
       // Helper function to get Authorization header
       const getAuthHeaders = () => ({
@@ -239,5 +210,6 @@
       msg.textContent = '';
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

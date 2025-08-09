@@ -18,16 +18,20 @@ public class TaskConfiguration {
             User admin = userRepository.findUserByEmail("admin@admin.com")
                     .orElseThrow(() -> new IllegalStateException("User not found"));
 
-            Task new_Task = new Task(
+            Task DEFAULT_TASK = new Task(
                     "New task",
                     "Task description. This is an example of a simple task.",
                     LocalDate.now(),
-                    TaskPriority.HIGH,
+                    TaskPriority.DEFAULT,
                     admin
             );
 
-            for (Task task : List.of(new_Task)) {
-                if (task.getId() == 0){
+            for (Task task : List.of(DEFAULT_TASK)) {
+                if (!admin.isDefaultTaskCreated()){
+                    admin.setDefaultTaskCreated(true);
+                    userRepository.save(admin);
+
+                    // DEFAULT TASK
                     taskRepository.save(task);
                 }
             }

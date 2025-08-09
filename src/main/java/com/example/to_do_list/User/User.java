@@ -29,6 +29,9 @@ public class User {
     private String username;
     private String password;
 
+    @JsonIgnore
+    private boolean defaultTaskCreated;
+
     public User() {
 
     }
@@ -37,6 +40,7 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.defaultTaskCreated = false;
     }
 
     public Long getId() {
@@ -65,5 +69,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isDefaultTaskCreated() {
+        return defaultTaskCreated;
+    }
+
+    public void setDefaultTaskCreated(boolean defaultTaskCreated) {
+        this.defaultTaskCreated = defaultTaskCreated;
     }
 }

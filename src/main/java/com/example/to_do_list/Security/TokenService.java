@@ -4,6 +4,7 @@ import com.example.to_do_list.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,6 +40,7 @@ public class TokenService {
         tokenRepository.deleteByToken(tokenStr);
     }
 
+    @Transient
     public void deleteUserTokens(User user) {
         tokenRepository.deleteAllByUser(user);
     }

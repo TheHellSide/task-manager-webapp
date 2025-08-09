@@ -6,6 +6,8 @@ import com.example.to_do_list.User.User;
 import com.example.to_do_list.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.beans.Transient;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -76,6 +78,11 @@ public class TaskService {
         return false;
     }
 
+    @Transient
+    public void deleteAllTasks(Long userId) {
+        taskRepository.deleteAllByUserId(userId);
+    }
+
     public Optional<Task> getTaskById(Long taskId) {
         return taskRepository.findById(taskId);
     }
@@ -127,5 +134,17 @@ public class TaskService {
         }
 
         return Optional.empty();
+    }
+
+    public void createDefaultTask(User user) {
+        Task DEFAULT_TASK = new Task(
+                "New task",
+                "Task description. This is an example of a simple task.",
+                LocalDate.now(),
+                TaskPriority.DEFAULT,
+                user
+        );
+
+        taskRepository.save(DEFAULT_TASK);
     }
 }

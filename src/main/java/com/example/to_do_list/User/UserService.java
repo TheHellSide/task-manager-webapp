@@ -2,23 +2,27 @@ package com.example.to_do_list.User;
 
 import com.example.to_do_list.Security.Token;
 import com.example.to_do_list.Security.TokenService;
+import com.example.to_do_list.Task.TaskRepository;
+import com.example.to_do_list.Task.TaskService;
 import com.example.to_do_list.User.Logs.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final TaskService taskService;
+    private final TaskRepository taskRepository;
     private final TokenService tokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, TokenService tokenService) {
+    public UserService(UserRepository userRepository, TokenService tokenService, TaskRepository  taskRepository, TaskService taskService) {
         this.userRepository = userRepository;
+        this.taskService = taskService;
         this.tokenService = tokenService;
+        this.taskRepository  = taskRepository;
     }
 
     public Optional<LoginResponse> login(String username, String password) {
@@ -41,12 +45,15 @@ public class UserService {
 
         if (optionalUser.isEmpty()){
             userRepository.save(user);
+            taskService.createDefaultTask(user);
+
             return true;
         }
 
         return false;
     }
 
+    @Transactional
     public boolean deleteUser(String token, Long userId) {
         boolean exists = userRepository.existsById(userId);
 
@@ -55,7 +62,19 @@ public class UserService {
                 tokenService.isValidToken(token) &&
                 tokenService.isTokenValidForUser(token, userId)
         ) {
-            userRepository.deleteById(userId);
+            Optional<User> userOptional = userRepository.findById(userId);
+            if (userOptional.isEmpty())
+                return false;
+
+            User user = userOptional.get();
+
+            // DELETE TASKS AND TOKENS
+            taskRepository.deleteAllByUserId(userId);
+            tokenService.deleteUserTokens(user);
+
+            // DELETE USER
+            userRepository.delete(user);
+
             return true;
         }
 

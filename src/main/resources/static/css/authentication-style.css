@@ -1,0 +1,34 @@
+body, html {
+    height: 100%;
+}
+
+.center-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    position: relative;
+}
+
+.theme-hash {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--bs-secondary-color);
+}
+
+.theme-hash:hover {
+    color: var(--bs-primary);
+}

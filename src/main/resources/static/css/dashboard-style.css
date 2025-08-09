@@ -1,0 +1,120 @@
+body {
+    overflow: hidden;
+}
+
+.task-card {
+    transition: box-shadow 0.2s ease; color: white;
+}
+
+#tasksList {
+    overflow-y:
+    auto; flex-grow: 1;
+    min-height: 0;
+    padding-right: 0.5rem;
+    scrollbar-gutter:
+    stable both-edges;
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.task-card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#tasksList::-webkit-scrollbar {
+    width: 7px;
+}
+
+#tasksList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#tasksList::-webkit-scrollbar-thumb {
+    background: rgba(100, 100, 100, 0.3);
+    border-radius: 4px;
+}
+
+#tasksList::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 100, 100, 0.5);
+}
+
+.priority-default {
+    color: #6c757d;
+    font-weight: bold;
+}
+
+.priority-high {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.priority-medium {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.priority-low {
+    color: #198754;
+    font-weight: bold;
+}
+
+.form-control, .form-select, textarea {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
+}
+
+.form-control:focus, .form-select:focus, textarea:focus {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.users-btn {
+    position: absolute;
+    top: 1rem;
+    right: 6rem;
+}
+.theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 9rem;
+}
+
+.logout-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.no-tasks-message {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bs-secondary-color);
+}
+
+/* LIGHT-DARK PERSONALIZATIONS */
+[data-bs-theme="light"] .task-title {
+    color: black;
+}
+
+[data-bs-theme="dark"] .task-title {
+    color: white;
+}
+
+[data-bs-theme="light"] .task-description,
+[data-bs-theme="light"] .data-title,
+[data-bs-theme="light"] .data-content {
+    color: #333333;
+}
+
+[data-bs-theme="dark"] .task-description,
+[data-bs-theme="dark"] .data-title,
+[data-bs-theme="dark"] .data-content {
+    color: #dddddd;
+}

@@ -1,0 +1,12 @@
+.top-buttons {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.top-buttons .btn:not(:first-child) {
+    margin-left: 0.5rem;
+}

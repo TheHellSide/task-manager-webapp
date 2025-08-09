@@ -200,17 +200,17 @@
                 if (!res.ok) throw new Error("Errore nel caricamento dei task");
                 const tasks = await res.json();
                 const tasksList = document.getElementById("tasksList");
-                tasksList.innerHTML = "";
+                tasksList.textContent = "";
 
                 if (!tasks || tasks.length === 0) {
-                    tasksList.innerHTML = `<div class="no-tasks-message"><p class="text-center">No tasks for you yet. Create one →</p></div>`;
+                    tasksList.textContent = `<div class="no-tasks-message"><p class="text-center">No tasks for you yet. Create one →</p></div>`;
                     return;
                 }
 
                 tasks.forEach(task => {
                     const card = document.createElement("div");
                     card.className = `mb-3 ${getPriorityClass(task.priority)}`;
-                    card.innerHTML = `
+                    card.textContent = `
                         <h5 class="task-title"><b>${task.title}</b></h5>
                         <p class="task-description">${task.description || ""}</p>
                         <p>

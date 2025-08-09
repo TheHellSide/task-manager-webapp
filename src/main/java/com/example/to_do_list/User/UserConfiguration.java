@@ -19,13 +19,7 @@ public class UserConfiguration {
                     "admin123"
             );
 
-            User anonymous = new User(
-                    "anonymous@admin.com",
-                    "anonymous",
-                    " "
-            );
-
-            for (User user : List.of(admin, anonymous)){
+            for (User user : List.of(admin)){
                 if (!userExists(userRepository, user.getUsername(), user.getEmail())){
                     userRepository.save(user);
                 }

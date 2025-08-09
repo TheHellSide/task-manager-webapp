@@ -15,20 +15,19 @@ public class TaskConfiguration {
     @Order(2)
     CommandLineRunner taskCommandLineRunner(TaskRepository taskRepository, UserRepository userRepository) {
         return args -> {
-            User anonymous = userRepository.findUserByEmail("anonymous@admin.com")
+            User admin = userRepository.findUserByEmail("admin@admin.com")
                     .orElseThrow(() -> new IllegalStateException("User not found"));
 
             Task new_Task = new Task(
                     "New task",
-                    "Task descriptio. This is an example of a simple task.",
+                    "Task description. This is an example of a simple task.",
                     LocalDate.now(),
                     TaskPriority.HIGH,
-                    anonymous
+                    admin
             );
 
-
             for (Task task : List.of(new_Task)) {
-                if (taskRepository.count() == 0){
+                if (task.getId() == 0){
                     taskRepository.save(task);
                 }
             }

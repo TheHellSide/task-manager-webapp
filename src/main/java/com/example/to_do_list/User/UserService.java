@@ -47,7 +47,6 @@ public class UserService {
         return false;
     }
 
-    //TODO: ADD TOKEN HANDLING.
     public boolean deleteUser(String token, Long userId) {
         boolean exists = userRepository.existsById(userId);
 

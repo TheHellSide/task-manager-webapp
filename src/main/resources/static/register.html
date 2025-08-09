@@ -1,119 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>To-Do - Register</title>
-  <script>
-    (function () {
-      const theme = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <style>
-    body, html {
-      height: 100%;
-    }
-    .center-container {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .form-box {
-      width: 100%;
-      max-width: 400px;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      background-color: var(--bs-body-bg);
-      color: var(--bs-body-color);
-      position: relative;
-    }
-    .theme-hash {
-      position: absolute;
-      top: 1rem;
-      right: 1.2rem;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: var(--bs-secondary-color);
-    }
-    .theme-hash:hover {
-      color: var(--bs-primary);
-    }
+    <meta charset="UTF-8" />
+    <title>To-Do - Register</title>
+    <script>
+        // THEME
+        (function () {
+            const theme = localStorage.getItem("theme") || "light";
+            document.documentElement.setAttribute("data-bs-theme", theme);
+        })();
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body, html {
+            height: 100%;
+        }
+
+        .center-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            background-color: var(--bs-body-bg);
+            color: var(--bs-body-color);
+            position: relative;
+        }
+
+        .theme-hash {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--bs-secondary-color);
+        }
+
+        .theme-hash:hover {
+            color: var(--bs-primary);
+        }
   </style>
 </head>
 <body class="bg-body text-body">
-<div class="center-container">
-  <div class="form-box">
-    <span class="theme-hash theme-toggle" id="themeBtn">🌙</span>
-    <h2 class="mb-4 text-center">Register</h2>
-    <form id="registerForm">
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" required />
-      </div>
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" required />
-      </div>
-      <div class="mb-4">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" required />
-      </div>
-      <button type="submit" class="btn btn-primary w-100">Register</button>
-    </form>
+    <div class="center-container">
+        <div class="form-box">
+            <span class="theme-hash theme-toggle" id="themeBtn">🌙</span>
+            <h2 class="mb-4 text-center">Register</h2>
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" required />
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" required />
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
 
-    <!-- Div errore stile Bootstrap -->
-    <div id="errorMsg" class="alert alert-danger mt-3 text-center fw-semibold" role="alert" style="display:none;"></div>
+            <!-- ERROR -->
+            <div id="errorMsg" class="alert alert-danger mt-3 text-center fw-semibold" role="alert" style="display:none;"></div>
 
-    <div class="mt-3 text-center">
-      <a href="login.html">Already have an account? Login</a>
+            <div class="mt-3 text-center">
+                <a href="login.html">Already have an account? Login</a>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<script src="js/theme-toggle.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  const API_URL = 'http://localhost:8080/api/v1/user';
-  const errorDiv = document.getElementById('errorMsg');
+    <script src="js/theme-toggle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_URL = 'http://localhost:8080/api/v1/user';
+        const errorDiv = document.getElementById('errorMsg');
 
-  document.getElementById('registerForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
+        // REGISTRATION
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
 
-    errorDiv.style.display = 'none';
-    errorDiv.textContent = '';
+            errorDiv.style.display = 'none';
+            errorDiv.textContent = '';
 
-    const email = document.getElementById('email').value.trim();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
 
-    const userData = { email, username, password };
+            const userData = { email, username, password };
 
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData)
-      });
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
 
-      if (response.status === 201) {
-        // Registrazione riuscita: redirect al login senza alert
-        window.location.href = 'login.html';
-      } else if (response.status === 400) {
-        const errorMessage = await response.text();
-        errorDiv.textContent = "Registration failed: " + errorMessage;
-        errorDiv.style.display = 'block';
-      } else {
-        errorDiv.textContent = 'Unexpected error: ' + response.statusText;
-        errorDiv.style.display = 'block';
-      }
-    } catch (error) {
-      errorDiv.textContent = 'Network error: ' + error.message;
-      errorDiv.style.display = 'block';
-    }
-  });
-</script>
+                if (response.status === 201) {
+                    // REGISTRATION REDIRECT
+                    window.location.href = 'login.html';
+                }
+                else if (response.status === 400) {
+                    const errorMessage = await response.text();
+                    errorDiv.textContent = "Registration failed: " + errorMessage;
+                    errorDiv.style.display = 'block';
+                }
+                else {
+                    errorDiv.textContent = 'Unexpected error: ' + response.statusText;
+                    errorDiv.style.display = 'block';
+                }
+            }
+            catch (error) {
+                errorDiv.textContent = 'Network error: ' + error.message;
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>

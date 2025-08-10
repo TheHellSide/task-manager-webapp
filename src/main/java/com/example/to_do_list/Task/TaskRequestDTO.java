@@ -7,7 +7,6 @@ public class TaskRequestDTO {
     private String description;
     private LocalDate dueDate;
     private TaskPriority priority;
-    private Long user_id;
 
     public String getTitle() {
         return title;
@@ -39,13 +38,5 @@ public class TaskRequestDTO {
 
     public void setPriority(TaskPriority priority) {
         this.priority = priority;
-    }
-
-    public Long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
     }
 }

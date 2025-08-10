@@ -32,10 +32,6 @@ public class TokenService {
         return tokenOpt.isPresent() && tokenOpt.get().getExpiresAt().isAfter(LocalDateTime.now());
     }
 
-    public boolean isTokenValidForUser(String token, Long id) {
-        return tokenRepository.existsTokenForUser(token, id);
-    }
-
     public void removeToken(String tokenStr) {
         tokenRepository.deleteByToken(tokenStr);
     }

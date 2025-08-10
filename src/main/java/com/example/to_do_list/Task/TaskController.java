@@ -22,11 +22,10 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<List<Task>> getUserTasks(
-            @RequestHeader("Authorization") String token,
-            @RequestParam Long userId
+            @CookieValue(name = "authentication-token") String token
     ) {
         Optional<List<Task>> userTaskOptional = taskService.
-                getUserTasks(userController.removeBearerPrefix(token), userId);
+                getUserTasks(token);
 
         if (userTaskOptional.isPresent()) {
             List<Task> tasks = userTaskOptional.get();
@@ -47,10 +46,10 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<String> addNewTask(
-            @RequestHeader("Authorization") String token,
+            @CookieValue(name = "authentication-token") String token,
             @RequestBody TaskRequestDTO taskDTO
     ) {
-        boolean added = taskService.addNewTask(taskDTO);
+        boolean added = taskService.addNewTask(token, taskDTO);
         if (added) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Task successfully added.");
         }
@@ -60,23 +59,23 @@ public class TaskController {
 
     @DeleteMapping(path = "{taskId}")
     public ResponseEntity<String> deleteTask(
-            @RequestHeader("Authorization") String token,
+            @CookieValue(name = "authentication-token") String token,
             @PathVariable Long taskId
     ) {
-        boolean deleted = taskService.deleteTask(taskId);
+        boolean deleted = taskService.deleteTask(token, taskId);
         if (deleted) {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Task successfully deleted.");
+            return ResponseEntity.ok("Task successfully deleted.");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Task not found.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found.");
     }
 
     @GetMapping(path = "{taskId}")
     public ResponseEntity<Task> getTaskById(
-            @RequestHeader("Authorization") String token,
+            @CookieValue(name = "authentication-token") String token,
             @PathVariable Long taskId
     ) {
-        Optional<Task> task = taskService.getTaskById(taskId);
+        Optional<Task> task = taskService.getTaskByIdIfValidToken(token, taskId);
         if (task.isPresent()) {
             return ResponseEntity.ok(task.get());
         }
@@ -86,39 +85,45 @@ public class TaskController {
 
     @PutMapping(path = "{taskId}")
     public ResponseEntity<String> updateTask(
-            @RequestHeader("Authorization") String token,
+            @CookieValue(name = "authentication-token") String token,
             @PathVariable Long taskId,
             @RequestBody TaskRequestDTO taskDTO
     ) {
-        boolean updated = taskService.updateTask(taskId,
+        boolean updated = taskService.updateTask(
+                token,
+                taskId,
                 taskDTO.getTitle(),
                 taskDTO.getDescription(),
                 taskDTO.getDueDate(),
                 taskDTO.getPriority()
         );
         if (updated) {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Task information successfully updated.");
+            return ResponseEntity.ok("Task information successfully updated.");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Task not found.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found.");
     }
 
     @PutMapping(path = "{taskId}/check")
     public ResponseEntity<String> checkTask(
-            @RequestHeader("Authorization") String token,
+            @CookieValue(name = "authentication-token") String token,
             @PathVariable Long taskId
     ) {
         Optional<Boolean> checked = taskService
-                .checkTask(taskId);
+                .checkTask(
+                        token,
+                        taskId
+                );
 
         if (checked.isPresent()) {
             return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(checked.get() ? "Task marked as completed." : "Task marked as not completed.");
+                    .ok(
+                            checked.get() ? "Task marked as completed." : "Task marked as not completed."
+                    );
         }
 
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.NOT_FOUND)
                 .body("Failed to update task status. Task may not exist.");
     }
 }

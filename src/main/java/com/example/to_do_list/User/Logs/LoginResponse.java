@@ -2,16 +2,14 @@ package com.example.to_do_list.User.Logs;
 
 public class LoginResponse {
     private Long id;
-    private String token;
     private String username;
     private String email;
 
     public LoginResponse() {
     }
 
-    public LoginResponse(Long id, String token, String username, String email) {
+    public LoginResponse(Long id, String username, String email) {
         this.id = id;
-        this.token = token;
         this.username = username;
         this.email = email;
     }
@@ -22,14 +20,6 @@ public class LoginResponse {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public String getUsername() {

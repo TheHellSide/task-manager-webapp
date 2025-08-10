@@ -1,12 +1,11 @@
 package com.example.to_do_list.Task;
 
-import com.example.to_do_list.Security.ContentSanitizer;
+import com.example.to_do_list.Security.Token;
+import com.example.to_do_list.Security.TokenRepository;
 import com.example.to_do_list.Security.TokenService;
 import com.example.to_do_list.User.User;
-import com.example.to_do_list.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.beans.Transient;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,41 +14,37 @@ import java.util.Optional;
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
     private final TokenService tokenService;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, UserRepository userRepository, TokenService tokenService) {
+    public TaskService(TaskRepository taskRepository, TokenRepository tokenRepository, TokenService tokenService) {
         this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
         this.tokenService = tokenService;
     }
 
-    public Optional<List<Task>> getUserTasks(String token, Long userId){
-        Optional<User> userOptional = userRepository.
-                findById(userId);
+    public Optional<List<Task>> getUserTasks(String token){
+        Optional<Token> tokenOptional = tokenRepository.findByToken(token);
 
-        if (userOptional.isEmpty()) {
+        if (
+                tokenOptional.isEmpty() ||
+                !tokenService.isValidToken(token)
+        ) {
             return Optional.empty();
         }
-        else {
-            if (
-                    !tokenService.isValidToken(token) ||
-                    !tokenService.isTokenValidForUser(token, userId)
-            ) {
-                return Optional.empty();
-            }
-        }
 
-        User user = userOptional.get();
+        User user = tokenOptional.get().getUser();
         return Optional.of(taskRepository.findAllByUser(user));
     }
 
-    public boolean addNewTask(TaskRequestDTO taskDto) {
-        Optional<User> userOptional = userRepository.
-                findById(taskDto.getUser_id());
+    public boolean addNewTask(
+            String token,
+            TaskRequestDTO taskDto
+    ) {
+        Optional<Token> tokenOptional = tokenRepository.findByToken(token);
 
-        if (userOptional.isEmpty()) {
+        if (tokenOptional.isEmpty()) {
             return false;
         }
 
@@ -58,16 +53,21 @@ public class TaskService {
                 taskDto.getDescription(),
                 taskDto.getDueDate(),
                 taskDto.getPriority(),
-                userOptional.get()
+                tokenOptional.get().getUser()
         );
 
         taskRepository.save(task);
         return true;
     }
 
-    public boolean deleteTask(Long taskId) {
-        Optional<Task> optionalTask = taskRepository
-                .findById(taskId);
+    public boolean deleteTask(
+            String token,
+            Long taskId
+    ) {
+        Optional<Task> optionalTask = getTaskByIdIfValidToken(token, taskId);
+
+        if (optionalTask.isEmpty())
+            return false;
 
         if (optionalTask.isPresent()) {
             taskRepository.delete(optionalTask.get());
@@ -77,29 +77,36 @@ public class TaskService {
         return false;
     }
 
+    // NEVER_USED
     @Transient
-    public void deleteAllTasks(Long userId) {
-        taskRepository.deleteAllByUserId(userId);
-    }
+    public boolean deleteAllTasks(String token) {
+        Optional<Token> tokenOptional = tokenRepository.findByToken(token);
 
-    public Optional<Task> getTaskById(Long taskId) {
-        return taskRepository.findById(taskId);
+        if (tokenOptional.isEmpty() || !tokenService.isValidToken(token))
+            return false;
+
+        taskRepository.deleteAllByUserId(
+                tokenOptional.get().getUser().getId()
+        );
+
+        return true;
     }
 
     public boolean updateTask(
+            String token,
             Long taskId,
             String title,
             String description,
             LocalDate dueDate,
             TaskPriority priority
     ) {
-        Optional<Task> optionalTask = taskRepository.findById(taskId);
+        Optional<Task> optionalTask = getTaskByIdIfValidToken(token, taskId);
 
-        if (optionalTask.isEmpty()) {
+        if (optionalTask.isEmpty())
             return false;
-        }
 
         Task task = optionalTask.get();
+
         if (title != null && !title.isBlank()) {
             task.setTitle(title);
         }
@@ -120,19 +127,20 @@ public class TaskService {
         return true;
     }
 
-    public Optional<Boolean> checkTask(Long taskId) {
-        Optional<Task> optionalTask = taskRepository
-                .findById(taskId);
+    public Optional<Boolean> checkTask(
+            String token,
+            Long taskId
+    ) {
+        Optional<Task> optionalTask = getTaskByIdIfValidToken(token, taskId);
 
-        if (optionalTask.isPresent()) {
-            Task task = optionalTask.get();
-            task.setCompleted(!task.isCompleted());
+        if (optionalTask.isEmpty())
+            return Optional.empty();
 
-            taskRepository.save(task);
-            return Optional.of(task.isCompleted());
-        }
+        Task task = optionalTask.get();
+        task.setCompleted(!task.isCompleted());
 
-        return Optional.empty();
+        taskRepository.save(task);
+        return Optional.of(task.isCompleted());
     }
 
     public void createDefaultTask(User user) {
@@ -145,5 +153,31 @@ public class TaskService {
         );
 
         taskRepository.save(DEFAULT_TASK);
+    }
+
+    public Optional<Task> getTaskByIdIfValidToken(
+            String token,
+            Long taskId
+    ) {
+        Optional<Token> optionalToken = tokenRepository
+                .findByToken(token);
+
+        // TOKEN-VALIDATION
+        if (optionalToken.isEmpty() || !tokenService.isValidToken(token)) {
+            return Optional.empty();
+        }
+
+        Optional<Task> optionalTask = taskRepository.
+                findById(taskId);
+
+        // TASK AND USER-VALIDATION
+        if (
+                optionalTask.isEmpty() ||
+                !optionalTask.get().getUser().equals(optionalToken.get().getUser())
+        ) {
+            return Optional.empty();
+        }
+
+        return optionalTask;
     }
 }

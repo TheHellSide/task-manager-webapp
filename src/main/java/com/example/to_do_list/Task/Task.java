@@ -43,8 +43,8 @@ public class Task {
         this.creationDate = LocalDate.now();
         this.dueDate = dueDate;
         this.priority = priority;
-        this.completed = false;
         this.user = user;
+        this.completed = false;
     }
 
     @JsonProperty("user_id")
@@ -74,10 +74,6 @@ public class Task {
 
     public LocalDate getCreationDate() {
         return creationDate;
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
     }
 
     public LocalDate getDueDate() {

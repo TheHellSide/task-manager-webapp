@@ -3,7 +3,8 @@ body {
 }
 
 .task-card {
-    transition: box-shadow 0.2s ease; color: white;
+    transition: box-shadow 0.2s ease;
+    color: white;
 }
 
 #tasksList {

@@ -1,6 +1,6 @@
 package com.example.to_do_list.Task;
 
-import com.example.to_do_list.Security.TokenRepository;
+import com.example.to_do_list.Security.ContentSanitizer;
 import com.example.to_do_list.Security.TokenService;
 import com.example.to_do_list.User.User;
 import com.example.to_do_list.User.UserRepository;
@@ -53,14 +53,13 @@ public class TaskService {
             return false;
         }
 
-        Task task = new Task();
-        task.setTitle(taskDto.getTitle());
-        task.setDescription(taskDto.getDescription());
-        task.setDueDate(taskDto.getDueDate());
-        task.setPriority(taskDto.getPriority());
-        task.setUser(userOptional.get());
-        task.setCreationDate(LocalDate.now());
-        task.setCompleted(false);
+        Task task = new Task(
+                taskDto.getTitle(),
+                taskDto.getDescription(),
+                taskDto.getDueDate(),
+                taskDto.getPriority(),
+                userOptional.get()
+        );
 
         taskRepository.save(task);
         return true;

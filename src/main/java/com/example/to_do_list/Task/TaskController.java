@@ -1,5 +1,6 @@
 package com.example.to_do_list.Task;
 
+import com.example.to_do_list.Security.ContentSanitizer;
 import com.example.to_do_list.Security.TokenService;
 import com.example.to_do_list.User.UserController;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,16 @@ public class TaskController {
                 getUserTasks(userController.removeBearerPrefix(token), userId);
 
         if (userTaskOptional.isPresent()) {
-            return ResponseEntity.ok(userTaskOptional.get());
+            List<Task> tasks = userTaskOptional.get();
+            for (Task task : tasks) {
+                task.setTitle(
+                        ContentSanitizer.toSafeHtml(task.getTitle())
+                );
+                task.setDescription(
+                        ContentSanitizer.toSafeHtml(task.getDescription())
+                );
+            }
+            return ResponseEntity.ok(tasks);
         }
         else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

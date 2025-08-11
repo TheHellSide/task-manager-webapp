@@ -1,4 +1,4 @@
-package com.example.to_do_list.Security;
+package com.example.to_do_list.Security.Token;
 
 import com.example.to_do_list.User.User;
 import jakarta.transaction.Transactional;
@@ -21,7 +21,4 @@ public interface TokenRepository extends JpaRepository<Token, String> {
     @Modifying
     @Query("DELETE FROM Token t WHERE t.user = :user")
     void deleteAllByUser(@Param("user") User user);
-
-    @Query("SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END FROM Token t WHERE t.token = :token AND t.user.id = :id")
-    boolean existsTokenForUser(@Param("token") String token, @Param("id") Long id);
 }

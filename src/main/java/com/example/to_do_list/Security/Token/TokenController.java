@@ -1,4 +1,4 @@
-package com.example.to_do_list.Security;
+package com.example.to_do_list.Security.Token;
 
 import com.example.to_do_list.User.User;
 import com.example.to_do_list.User.UserRepository;

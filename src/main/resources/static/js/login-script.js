@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8080/api/v1/user/login';
+const API_URL = 'http://localhost:8080/api/v1/user/in';
 const errorDiv = document.getElementById('errorMsg');
 
 // LOGIN
@@ -15,24 +15,14 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         const res = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include', // COOKIE-HANDLING
             body: JSON.stringify({ username, password }),
         });
 
         if (res.ok) {
-            const data = await res.json();
-
-            if (!data.token) {
-                throw new Error('Invalid login response format: missing token');
-            }
-
-            // SAVE DATA
-            const user = {
-                id: data.id,
-                token: data.token,
-                username: data.username,
-                email: data.email
-            };
-            localStorage.setItem('loggedUser', JSON.stringify(user));
+            // USER-DATA
+            const userData = await res.json();
+            localStorage.setItem('loggedUser', JSON.stringify(userData));
 
             // REDIRECT
             window.location.href = 'dashboard.html';

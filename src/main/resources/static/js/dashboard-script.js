@@ -1,12 +1,10 @@
 // USER-DATA VALIDATION
 const userData = JSON.parse(localStorage.getItem('loggedUser'));
-if (!userData || !userData.token || !userData.id) {
+if (!userData) {
     window.location.href = 'login.html';
 }
 
 const API_URL = "/api/v1/task";
-const token = userData.token;
-const userId = userData.id;
 
 function getPriorityClass(priority) {
     switch (priority) {
@@ -20,16 +18,14 @@ function getPriorityClass(priority) {
 
 async function loadTasks() {
     try {
-        const res = await fetch(`${API_URL}?userId=${userId}`, {
+        const res = await fetch(API_URL, {
             method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
+            credentials: 'include' // COOKIE-SENDING
         });
-
 
         if (!res.ok) throw new Error("Errore nel caricamento dei task");
         const tasks = await res.json();
+
         const tasksList = document.getElementById("tasksList");
         tasksList.innerHTML = "";
 
@@ -69,14 +65,13 @@ async function startEditTask(id) {
     try {
         const res = await fetch(`${API_URL}/${id}`, {
             method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
+            credentials: 'include'
         });
 
         if (!res.ok) throw new Error("Errore nel caricamento del task");
 
         const task = await res.json();
+
         document.getElementById("formTitle").textContent = "Edit Task";
         document.getElementById("submitBtn").textContent = "Save Changes";
         document.getElementById("cancelEditBtn").classList.remove("d-none");
@@ -100,32 +95,25 @@ document.getElementById("cancelEditBtn").addEventListener("click", e => {
 
 document.getElementById("taskForm").addEventListener("submit", async e => {
     e.preventDefault();
+
     const taskId = document.getElementById("taskId").value;
     const payload = {
         title: document.getElementById("title").value,
         description: document.getElementById("description").value,
         dueDate: document.getElementById("dueDate").value,
         priority: document.getElementById("priority").value,
-        user_id: userId
     };
 
     try {
-        let method, endpoint;
-        if (taskId) {
-            method = "PUT";
-            endpoint = `${API_URL}/${taskId}`;
-        }
-        else {
-            method = "POST";
-            endpoint = API_URL;
-        }
+        const method = taskId ? "PUT" : "POST";
+        const endpoint = taskId ? `${API_URL}/${taskId}` : API_URL;
 
         const res = await fetch(endpoint, {
             method,
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Content-Type": "application/json"
             },
+            credentials: 'include',
             body: JSON.stringify(payload)
         });
 
@@ -143,10 +131,9 @@ async function deleteTask(id) {
     try {
         const res = await fetch(`${API_URL}/${id}`, {
             method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
+            credentials: 'include'
         });
+
         if (!res.ok) throw new Error("Errore eliminazione");
 
         loadTasks();
@@ -160,10 +147,9 @@ async function completeTask(id) {
     try {
         const res = await fetch(`${API_URL}/${id}/check`, {
             method: "PUT",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
+            credentials: 'include'
         });
+
         if (!res.ok) throw new Error("Errore aggiornamento stato");
 
         loadTasks();
@@ -177,6 +163,7 @@ function clearForm() {
     document.getElementById("formTitle").textContent = "Create New Task";
     document.getElementById("submitBtn").textContent = "Add Task";
     document.getElementById("cancelEditBtn").classList.add("d-none");
+
     ["taskId", "title", "description", "creationDate", "dueDate", "priority"].forEach(id => {
         document.getElementById(id).value = "";
     });

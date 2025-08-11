@@ -1,7 +1,10 @@
 package com.example.to_do_list.User;
 
+import com.example.to_do_list.Security.Token.TokenService;
 import com.example.to_do_list.User.Logs.LoginRequest;
 import com.example.to_do_list.User.Logs.LoginResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -14,9 +17,11 @@ import java.util.Optional;
 @RequestMapping(("/api/v1/user"))
 public class UserController {
     private final UserService userService;
+    private final TokenService tokenService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TokenService tokenService) {
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     @PostMapping
@@ -29,7 +34,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists.");
     }
 
-    @PostMapping("/login")
+    @PostMapping("/in")
     public ResponseEntity<?> loginUser(
             @RequestBody LoginRequest loginRequest,
             HttpServletResponse response
@@ -45,13 +50,35 @@ public class UserController {
         ResponseCookie cookie = ResponseCookie.from("authentication-token", token)
                 .httpOnly(true)
                 .secure(false) // HTTPS = true (localhost = false)
-                .sameSite("None")
-                .maxAge(2 * 60 * 60) // 2H
+                .sameSite("Lax")
+                .maxAge(24 * 60 * 60) // 24H
                 .path("/")
                 .build();
 
         response.addHeader("Set-Cookie", cookie.toString());
         return ResponseEntity.ok((LoginResponse) data.get("user"));
+    }
+
+    @PostMapping("/out")
+    public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+        String token = getTokenFromCookie(request);
+        if (token != null) {
+            userService.logout(response, token);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/me/extend-session")
+    public  ResponseEntity<?> extendUserSession(
+            @CookieValue(name = "authentication-token") String token,
+            HttpServletResponse response
+    ) {
+        boolean isExtendedSession = tokenService.extendSession(token, response, 15);
+        if (isExtendedSession) {
+            return ResponseEntity.ok("Session extended.");
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not valid cookie.");
     }
 
     @DeleteMapping(path = "/me")
@@ -103,5 +130,16 @@ public class UserController {
             return ResponseEntity.ok("Password successfully updated.");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+    }
+
+    private String getTokenFromCookie(HttpServletRequest request) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("authentication-token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }

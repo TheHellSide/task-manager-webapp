@@ -1,25 +1,15 @@
 package com.example.to_do_list.User.Logs;
 
 public class LoginResponse {
-    private Long id;
     private String username;
     private String email;
 
     public LoginResponse() {
     }
 
-    public LoginResponse(Long id, String username, String email) {
-        this.id = id;
+    public LoginResponse(String username, String email) {
         this.username = username;
         this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {

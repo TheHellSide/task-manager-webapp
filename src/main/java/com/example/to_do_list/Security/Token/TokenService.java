@@ -1,10 +1,13 @@
-package com.example.to_do_list.Security;
+package com.example.to_do_list.Security.Token;
 
 import com.example.to_do_list.User.User;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,6 +28,31 @@ public class TokenService {
         );
         token.setExpiresAt(creationDate.plusHours(2));
         return tokenRepository.save(token);
+    }
+
+    public boolean extendSession(String token, HttpServletResponse response, int timeInMinutes) {
+        Optional<Token> tokenOpt = tokenRepository.findByToken(token);
+
+        if (tokenOpt.isEmpty()) {
+            return false;
+        }
+
+        Token existingToken = tokenOpt.get();
+        if (existingToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            return false;
+        }
+
+        existingToken.setExpiresAt(existingToken.getExpiresAt().plusMinutes(timeInMinutes));
+        tokenRepository.save(existingToken);
+
+        Cookie cookie = new Cookie("authentication-token", token);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false); // HTTPS = true
+        cookie.setPath("/");
+        cookie.setMaxAge((int) Duration.between(LocalDateTime.now(), existingToken.getExpiresAt()).getSeconds());
+
+        response.addCookie(cookie);
+        return true;
     }
 
     public boolean isValidToken(String tokenStr) {

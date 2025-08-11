@@ -1,20 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     // USER-DATA VALIDATION
-    const loggedUserStr = localStorage.getItem('loggedUser');
-    if (!loggedUserStr) {
+    const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+    if (!loggedUser) {
         window.location.href = 'login.html';
         return;
     }
 
-    const loggedUser = JSON.parse(loggedUserStr);
     document.getElementById('username').value = loggedUser.username;
     document.getElementById('email').value = loggedUser.email;
 
-    // Helper function to get Authorization header
-    const getAuthHeaders = () => ({
-        'Authorization': 'Bearer ' + loggedUser.token,
-        'Content-Type': 'application/json'
-    });
+    const API_BASE = 'http://localhost:8080/api/v1/user';
 
     // UPDATE USER-INFORMATIONS
     document.getElementById('updateForm').addEventListener('submit', async (e) => {
@@ -25,9 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = document.getElementById('email').value.trim();
 
         try {
-            const res = await fetch(`http://localhost:8080/api/v1/user/${loggedUser.id}?username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}`, {
+            const res = await fetch(`${API_BASE}/me`, {
                 method: 'PUT',
-                headers: { 'Authorization': 'Bearer ' + loggedUser.token }
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ username, email })
             });
 
             if (res.ok) {
@@ -35,8 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 loggedUser.username = username;
                 loggedUser.email = email;
                 localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
-            }
-            else {
+            } else {
                 const msg = await res.text();
                 showError(msg);
             }
@@ -46,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // PASSWORD
+    // PASSWORD CHANGE
     document.getElementById('passwordForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         clearMessages();
@@ -61,9 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const verifyRes = await fetch(`http://localhost:8080/api/v1/user/${loggedUser.id}/verify-password`, {
+            const verifyRes = await fetch(`${API_BASE}/me/verify-password`, {
                 method: 'POST',
-                headers: getAuthHeaders(),
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ password: current })
             });
 
@@ -72,17 +69,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            const updateRes = await fetch(`http://localhost:8080/api/v1/user/${loggedUser.id}/password`, {
+            const updateRes = await fetch(`${API_BASE}/me/password`, {
                 method: 'PUT',
-                headers: getAuthHeaders(),
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ password: newPass })
             });
 
             if (updateRes.ok) {
                 showSuccess('Password changed successfully.');
                 e.target.reset();
-            }
-            else {
+            } else {
                 const msg = await updateRes.text();
                 showError(msg);
             }
@@ -95,18 +92,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // DELETE ACCOUNT
     document.getElementById('deleteBtn').addEventListener('click', async () => {
         clearMessages();
-
-        // REMOVE LOCAL DATA
         localStorage.removeItem('loggedUser');
 
         try {
-            const res = await fetch(`http://localhost:8080/api/v1/user/${loggedUser.id}`, {
+            const res = await fetch(`${API_BASE}/me`, {
                 method: 'DELETE',
-                headers: { 'Authorization': 'Bearer ' + loggedUser.token }
+                credentials: 'include'
             });
 
             if (res.ok) {
-                // REDIRECT
                 window.location.href = 'register.html';
             } else {
                 const msg = await res.text();

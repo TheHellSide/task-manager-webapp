@@ -1,9 +1,8 @@
-package com.example.to_do_list.Security;
+package com.example.to_do_list.Security.Token;
 
 import com.example.to_do_list.User.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "token")

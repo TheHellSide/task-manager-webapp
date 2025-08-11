@@ -1,11 +1,13 @@
 package com.example.to_do_list.User;
 
-import com.example.to_do_list.Security.Token;
-import com.example.to_do_list.Security.TokenRepository;
-import com.example.to_do_list.Security.TokenService;
+import com.example.to_do_list.Security.Token.Token;
+import com.example.to_do_list.Security.Token.TokenRepository;
+import com.example.to_do_list.Security.Token.TokenService;
 import com.example.to_do_list.Task.TaskRepository;
 import com.example.to_do_list.Task.TaskService;
 import com.example.to_do_list.User.Logs.LoginResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,16 +52,30 @@ public class UserService {
             return Optional.empty();
 
         Token userToken = tokenService.generateToken(user);
+
         return Optional.of(
                 Map.of(
-                        "token", userToken,
+                        "token", userToken.getToken(),
                         "user", new LoginResponse(
-                                user.getId(),
                                 user.getUsername(),
                                 user.getEmail()
                         )
                 )
         );
+    }
+
+    public void logout(HttpServletResponse response, String tokenStr) {
+        // DATABASE
+        tokenRepository.deleteByToken(tokenStr);
+
+        // CLIENT-SIDE
+        Cookie cookie = new Cookie("authentication-token", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
     }
 
     @Transactional

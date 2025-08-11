@@ -27,18 +27,46 @@ This project is meant to help you manage your tasks and users efficiently while 
 ## 💾 Project Structure
 
 ```bash
-src
-├── main
-│   ├── java
-│   │   └── com.example.to_do_list
-│   │       ├── Task                # All task-related logic
-│   │       └── User                # All user-related logic
-│   ├── resources
-│   │   ├── static                  # Front-end HTML + JS
-│   │   ├── templates               # Thymeleaf (optional)
-│   │   └── application.properties  # App configuration
-└── test
-    └── ...                         # Unit and integration tests
+.
+├── LICENSE
+├── pom.xml
+├── README.md
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── example/
+│   │   │           └── to_do_list/
+│   │   │               ├── Security/
+│   │   │               │   ├── ...
+│   │   │               │   └── Token/
+│   │   │               │       └── ...
+│   │   │               ├── Task/
+│   │   │               │   └── ...
+│   │   │               ├── User/
+│   │   │               │   ├── Logs/
+│   │   │               │   │   └── ...
+│   │   │               │   └── ...
+│   │   │               └── ToDoListApplication.java
+│   │   └── resources/
+│   │       ├── static/
+│   │       │   ├── css/
+│   │       │   │   └── ...
+│   │       │   ├── js/
+│   │       │   │   ├── global/
+│   │       │   │   │   └── ...
+│   │       │   │   └── ...
+│   │       │   ├── index.html
+│   │       │   ├── login.html
+│   │       │   ├── register.html
+│   │       │   ├── dashboard.html
+│   │       │   └── user.html
+│   │       ├── application.properties
+│   │       └── to_do_list.sql
+│   └── test
+│       └── ...
+└── target
+    └── ...
 ```
 
 ## 📦 How to Run

@@ -17,9 +17,12 @@
 <body class="bg-body text-body">
 
     <!-- CONTROLS -->
-    <button class="btn btn-outline-secondary theme-toggle" id="themeBtn">🌙</button>
-    <a href="user.html" class="btn btn-outline-success users-btn">👤</a>
-    <a id="logoutBtn" class="btn btn-outline-danger logout-btn"><b>Logout</b></a>
+    <div class="top-buttons">
+        <button class="btn btn-outline-secondary theme-toggle" id="themeBtn">🌙</button>
+        <a href="user.html" class="btn btn-outline-secondary users-btn">👤</a>
+        <a class="btn btn-outline-secondary" id="sessionBtn">🔑</a>
+        <a id="logoutBtn" class="btn btn-outline-danger logout-btn"><b>Logout</b></a>
+    </div>
 
     <!-- MAIN -->
     <div class="container-fluid">
@@ -36,7 +39,7 @@
                 <form id="taskForm">
                     <input type="hidden" id="taskId" />
                     <div class="mb-3"><label class="form-label">Title</label><input type="text" id="title" class="form-control" required/></div>
-                    <div class="mb-3"><label class="form-label">Description</label><textarea id="description" class="form-control" rows="3" required></textarea></div>
+                    <div class="mb-3"><label class="form-label">Description</label><textarea id="description" class="form-control" rows="10" required></textarea></div>
                     <div class="mb-3"><label class="form-label">Creation Date</label><input type="text" id="creationDate" class="form-control" readonly disabled/></div>
                     <div class="mb-3"><label class="form-label">Due Date</label><input type="date" id="dueDate" class="form-control" required/></div>
                     <div class="mb-4"><label class="form-label">Priority</label><select id="priority" class="form-select" required>
@@ -53,6 +56,7 @@
     </div>
 
     <script src="js/global/theme-toggle.js"></script>
+    <script src="js/global/extend-session.js"></script>
     <script src="js/global/logout.js"></script>
     <script src="js/dashboard-script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

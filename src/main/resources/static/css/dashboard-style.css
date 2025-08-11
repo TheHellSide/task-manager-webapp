@@ -74,21 +74,17 @@ body {
     color: var(--bs-body-color);
 }
 
-.users-btn {
-    position: absolute;
-    top: 1rem;
-    right: 6rem;
-}
-.theme-toggle {
-    position: absolute;
-    top: 1rem;
-    right: 9rem;
-}
-
-.logout-btn {
+.top-buttons {
     position: absolute;
     top: 1rem;
     right: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.top-buttons .btn:not(:first-child) {
+    margin-left: 0.5rem;
 }
 
 .no-tasks-message {
@@ -97,6 +93,10 @@ body {
     align-items: center;
     justify-content: center;
     color: var(--bs-secondary-color);
+}
+
+.top-buttons .btn {
+    margin-left: 0.5rem;
 }
 
 /* LIGHT-DARK PERSONALIZATIONS */
@@ -118,4 +118,41 @@ body {
 [data-bs-theme="dark"] .data-title,
 [data-bs-theme="dark"] .data-content {
     color: #dddddd;
+}
+
+/* TOP-BUTTONS (SECONDARY) */
+[data-bs-theme="light"] .top-buttons .btn-outline-secondary {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: color 0.3s ease;
+    color: #6c757d;
+}
+
+[data-bs-theme="light"] .top-buttons .btn-outline-secondary:hover,
+[data-bs-theme="light"] .top-buttons .btn-outline-secondary:focus {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: black;
+}
+
+[data-bs-theme="dark"] .top-buttons .btn-outline-secondary {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: color 0.3s ease;
+    color: #adb5bd;
+}
+
+[data-bs-theme="dark"] .top-buttons .btn-outline-secondary:hover,
+[data-bs-theme="dark"] .top-buttons .btn-outline-secondary:focus {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: white;
 }

@@ -62,6 +62,7 @@ public class UserController {
     @PostMapping("/out")
     public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
         String token = getTokenFromCookie(request);
+        System.out.print(token);
         if (token != null) {
             userService.logout(response, token);
         }
@@ -73,7 +74,7 @@ public class UserController {
             @CookieValue(name = "authentication-token") String token,
             HttpServletResponse response
     ) {
-        boolean isExtendedSession = tokenService.extendSession(token, response, 15);
+        boolean isExtendedSession = tokenService.extendSession(token, response, 30);
         if (isExtendedSession) {
             return ResponseEntity.ok("Session extended.");
         }

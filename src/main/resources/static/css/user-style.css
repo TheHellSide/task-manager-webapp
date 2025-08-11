@@ -10,3 +10,40 @@
 .top-buttons .btn:not(:first-child) {
     margin-left: 0.5rem;
 }
+
+/* TOP-BUTTONS (SECONDARY) */
+[data-bs-theme="light"] .top-buttons .btn-outline-secondary {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: color 0.3s ease;
+    color: #6c757d;
+}
+
+[data-bs-theme="light"] .top-buttons .btn-outline-secondary:hover,
+[data-bs-theme="light"] .top-buttons .btn-outline-secondary:focus {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: black;
+}
+
+[data-bs-theme="dark"] .top-buttons .btn-outline-secondary {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: color 0.3s ease;
+    color: #adb5bd;
+}
+
+[data-bs-theme="dark"] .top-buttons .btn-outline-secondary:hover,
+[data-bs-theme="dark"] .top-buttons .btn-outline-secondary:focus {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: white;
+}

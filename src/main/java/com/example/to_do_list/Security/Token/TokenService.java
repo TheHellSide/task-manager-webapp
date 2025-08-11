@@ -5,7 +5,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.beans.Transient;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public class TokenService {
                 user,
                 creationDate
         );
-        token.setExpiresAt(creationDate.plusHours(2));
+        token.setExpiresAt(creationDate.plusHours(24));
         return tokenRepository.save(token);
     }
 
@@ -58,10 +57,6 @@ public class TokenService {
     public boolean isValidToken(String tokenStr) {
         Optional<Token> tokenOpt = tokenRepository.findByToken(tokenStr);
         return tokenOpt.isPresent() && tokenOpt.get().getExpiresAt().isAfter(LocalDateTime.now());
-    }
-
-    public void removeToken(String tokenStr) {
-        tokenRepository.deleteByToken(tokenStr);
     }
 
     @Transient

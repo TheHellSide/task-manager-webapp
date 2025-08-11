@@ -14,8 +14,6 @@ import java.util.List;
 @Repository
 public interface TokenRepository extends JpaRepository<Token, String> {
     Optional<Token> findByToken(String token);
-    List<Token> findAllByUser(User user);
-    void deleteByToken(String token);
 
     @Transactional
     @Modifying

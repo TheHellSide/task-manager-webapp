@@ -64,9 +64,16 @@ public class UserService {
         );
     }
 
-    public void logout(HttpServletResponse response, String tokenStr) {
+    public void logout(HttpServletResponse response, String token) {
         // DATABASE
-        tokenRepository.deleteByToken(tokenStr);
+        Optional<User> optionalUser = getUserFromValidToken(token);
+
+        if (optionalUser.isEmpty()) {
+            return;
+        }
+
+        //DATABASE
+        tokenRepository.deleteAllByUser(optionalUser.get());
 
         // CLIENT-SIDE
         Cookie cookie = new Cookie("authentication-token", null);

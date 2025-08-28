@@ -1,9 +1,7 @@
 package com.example.to_do_list.User;
 
-import com.example.to_do_list.Task.Task;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.util.*;
 
 @Entity
 @Table
@@ -40,7 +38,6 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
-        this.defaultTaskCreated = false;
     }
 
     public Long getId() {
@@ -69,13 +66,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isDefaultTaskCreated() {
-        return defaultTaskCreated;
-    }
-
-    public void setDefaultTaskCreated(boolean defaultTaskCreated) {
-        this.defaultTaskCreated = defaultTaskCreated;
     }
 }

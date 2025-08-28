@@ -8,7 +8,8 @@ const API_URL = "/api/v1/task";
 
 function getPriorityClass(priority) {
     switch (priority) {
-        case "DEFAULT": return "alert alert-secondary";
+        case "DEFAULT": return "alert alert-primary";
+        case "EXPIRED": return "alert alert-secondary alert-expired";
         case "HIGH": return "alert alert-danger";
         case "MEDIUM": return "alert alert-warning";
         case "LOW": return "alert alert-success";

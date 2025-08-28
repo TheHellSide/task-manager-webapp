@@ -11,6 +11,13 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     const email = document.getElementById('email').value.trim();
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
+    const confirm_password = document.getElementById('confirm-password').value;
+
+    if (password !== confirm_password) {
+        errorDiv.textContent = "Passwords do not match.";
+        errorDiv.style.display = 'block';
+        return;
+    }
 
     const userData = { email, username, password };
 

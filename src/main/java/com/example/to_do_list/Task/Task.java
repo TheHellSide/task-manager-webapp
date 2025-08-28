@@ -56,6 +56,15 @@ public class Task {
         return id;
     }
 
+    public void checkExpiration(){
+        if (
+                LocalDate.now().isAfter(dueDate) &&
+                !priority.equals(TaskPriority.DEFAULT))
+        {
+            priority = TaskPriority.EXPIRED;
+        }
+    }
+
     public String getTitle() {
         return title;
     }

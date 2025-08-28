@@ -35,7 +35,11 @@ public class TaskService {
         }
 
         User user = tokenOptional.get().getUser();
-        return Optional.of(taskRepository.findAllByUser(user));
+        List<Task> tasks = taskRepository
+                .findAllByUser(user);
+
+        tasks.forEach(Task::checkExpiration);
+        return Optional.of(tasks);
     }
 
     public boolean addNewTask(
@@ -178,6 +182,7 @@ public class TaskService {
             return Optional.empty();
         }
 
+        optionalTask.get().checkExpiration();
         return optionalTask;
     }
 }

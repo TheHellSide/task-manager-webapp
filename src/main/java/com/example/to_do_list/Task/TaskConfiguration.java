@@ -27,13 +27,10 @@ public class TaskConfiguration {
             );
 
             for (Task task : List.of(DEFAULT_TASK)) {
-                if (!admin.isDefaultTaskCreated()){
-                    admin.setDefaultTaskCreated(true);
                     userRepository.save(admin);
 
                     // DEFAULT TASK
                     taskRepository.save(task);
-                }
             }
         };
     }

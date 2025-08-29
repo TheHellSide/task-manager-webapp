@@ -1,7 +1,6 @@
-package com.example.to_do_list.Task;
+package com.example.task_manager_webapp.Task;
 
-import com.example.to_do_list.Security.ContentSanitizer;
-import com.example.to_do_list.User.UserController;
+import com.example.task_manager_webapp.Security.ContentSanitizer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +11,9 @@ import java.util.Optional;
 @RequestMapping(("/api/v1/task"))
 public class TaskController {
     private final TaskService taskService;
-    private final UserController userController;
 
-    public TaskController(TaskService taskService, UserController userController) {
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
-        this.userController = userController;
     }
 
     @GetMapping

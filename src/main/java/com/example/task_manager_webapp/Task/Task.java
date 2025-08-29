@@ -1,6 +1,6 @@
-package com.example.to_do_list.Task;
+package com.example.task_manager_webapp.Task;
 
-import com.example.to_do_list.User.User;
+import com.example.task_manager_webapp.User.User;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;

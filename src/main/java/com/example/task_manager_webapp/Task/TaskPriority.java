@@ -1,4 +1,4 @@
-package com.example.to_do_list.Task;
+package com.example.task_manager_webapp.Task;
 
 public enum TaskPriority {
     LOW, MEDIUM, HIGH, EXPIRED, DEFAULT

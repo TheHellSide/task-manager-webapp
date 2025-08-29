@@ -1,9 +1,9 @@
-package com.example.to_do_list.Task;
+package com.example.task_manager_webapp.Task;
 
-import com.example.to_do_list.Security.Token.Token;
-import com.example.to_do_list.Security.Token.TokenRepository;
-import com.example.to_do_list.Security.Token.TokenService;
-import com.example.to_do_list.User.User;
+import com.example.task_manager_webapp.Security.Token.Token;
+import com.example.task_manager_webapp.Security.Token.TokenRepository;
+import com.example.task_manager_webapp.Security.Token.TokenService;
+import com.example.task_manager_webapp.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.beans.Transient;

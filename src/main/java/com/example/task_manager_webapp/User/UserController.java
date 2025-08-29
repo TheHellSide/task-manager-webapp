@@ -1,8 +1,8 @@
-package com.example.to_do_list.User;
+package com.example.task_manager_webapp.User;
 
-import com.example.to_do_list.Security.Token.TokenService;
-import com.example.to_do_list.User.Logs.LoginRequest;
-import com.example.to_do_list.User.Logs.LoginResponse;
+import com.example.task_manager_webapp.Security.Token.TokenService;
+import com.example.task_manager_webapp.User.Logs.LoginRequest;
+import com.example.task_manager_webapp.User.Logs.LoginResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

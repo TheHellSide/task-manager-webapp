@@ -1,6 +1,6 @@
-package com.example.to_do_list.Security.Token;
+package com.example.task_manager_webapp.Security.Token;
 
-import com.example.to_do_list.User.User;
+import com.example.task_manager_webapp.User.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

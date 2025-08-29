@@ -1,4 +1,4 @@
-package com.example.to_do_list.User;
+package com.example.task_manager_webapp.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

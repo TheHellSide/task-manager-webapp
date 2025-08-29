@@ -1,9 +1,9 @@
-# To-Do List App (Spring Boot)
+# Task Manager App (Spring Boot)
 
-A simple and powerful To-Do List web application built with **Java**, **Spring Boot**, and **Thymeleaf**.
+A simple and powerful Task Manager web application built with **Java** and **Spring Boot**.
 This project is meant to help you manage your tasks and users efficiently while also serving as a cool portfolio project!
 
-## 🧠 Features
+### 🧠 Features
 
 - Create, Read, Update, Delete (CRUD) tasks with APIs
 - Task prioritization (via `TaskPriority`)
@@ -14,17 +14,16 @@ This project is meant to help you manage your tasks and users efficiently while 
 - Data persistence with Spring Data JPA & SQL
 - Pre-configured SQL schema included
 
-## 📁 Tech Stack
+### 📁 Tech Stack
 
 - Java 17+ (Java 24)
 - Spring Boot
 - Spring Data JPA
-- Thymeleaf
 - MySQL (configurable)
 - HTML/CSS/JS
 - Maven
 
-## 💾 Project Structure
+### 💾 Project Structure
 
 ```bash
 .
@@ -36,7 +35,7 @@ This project is meant to help you manage your tasks and users efficiently while 
 │   │   ├── java/
 │   │   │   └── com/
 │   │   │       └── example/
-│   │   │           └── to_do_list/
+│   │   │           └── task_manager_webapp/
 │   │   │               ├── Security/
 │   │   │               │   ├── ...
 │   │   │               │   └── Token/
@@ -47,7 +46,7 @@ This project is meant to help you manage your tasks and users efficiently while 
 │   │   │               │   ├── Logs/
 │   │   │               │   │   └── ...
 │   │   │               │   └── ...
-│   │   │               └── ToDoListApplication.java
+│   │   │               └── TaskManagerApplication.java
 │   │   └── resources/
 │   │       ├── static/
 │   │       │   ├── css/
@@ -62,51 +61,55 @@ This project is meant to help you manage your tasks and users efficiently while 
 │   │       │   ├── dashboard.html
 │   │       │   └── user.html
 │   │       ├── application.properties
-│   │       └── to_do_list.sql
+│   │       └── dump.sql
 │   └── test
 │       └── ...
 └── target
     └── ...
 ```
 
-## 📦 How to Run
+### 📦 How to Run
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/TheHellSide/to-do-list-springboot.git
+   git clone https://github.com/TheHellSide/task-manager-webapp.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd to-do-list-springboot
+   cd task-manager-webapp
    ```
 
-3. Run with Maven:
+3. Use the **_dump.sql_** file to create the database, only then Run with Maven:
    ```bash
+   mysql -u root -p task_manager_webapp < dump.sql
    ./mvnw spring-boot:run
    ```
+   
+> **REMEMBER**:
+> Change the credentials of the database in **application.properties**. Those are some '**STANDARD**' and **unsecure** credentials.
 
 4. Open your browser and go to:
    ```
    http://localhost:8080
    ```
 
-## 📦 How to Use It?
+### 📦 How to Use It?
 
 **If you don't know how to use it, why are you here? ;)**
 But seriously:
 Just register as a new user, log in, and start adding your tasks.
 Toggle between light/dark themes and manage your daily life like a pro.
 
-## 📄 License
+### 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
 
-## 👥 Author
+### 👥 Author
 
 Made with by **TheHellSide**
 Follow me on [GitHub](https://github.com/TheHellSide)
 
-## ⭐️ Support
+### ⭐ Support
 
 If you like this project, leave a star — it helps a lot!

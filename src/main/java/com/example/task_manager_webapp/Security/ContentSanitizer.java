@@ -1,7 +1,5 @@
-package com.example.to_do_list.Security;
+package com.example.task_manager_webapp.Security;
 
-import org.owasp.html.HtmlPolicyBuilder;
-import org.owasp.html.PolicyFactory;
 import org.apache.commons.text.StringEscapeUtils;
 
 public class ContentSanitizer {

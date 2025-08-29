@@ -1,6 +1,6 @@
-package com.example.to_do_list.Security.Token;
+package com.example.task_manager_webapp.Security.Token;
 
-import com.example.to_do_list.User.User;
+import com.example.task_manager_webapp.User.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

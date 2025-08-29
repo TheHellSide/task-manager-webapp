@@ -1,6 +1,6 @@
-package com.example.to_do_list.Task;
+package com.example.task_manager_webapp.Task;
 
-import com.example.to_do_list.User.User;
+import com.example.task_manager_webapp.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -10,10 +10,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>to-do-list</artifactId>
+	<artifactId>task-manager-webapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>to-do-list</name>
-	<description>Demo project for Spring Boot</description>
+	<name>task-manager-webapp</name>
+	<description>Spring Boot task-manager-webapp</description>
 	<url/>
 	<licenses>
 		<license/>

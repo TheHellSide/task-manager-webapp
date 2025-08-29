@@ -1,4 +1,4 @@
-package com.example.to_do_list.User.Logs;
+package com.example.task_manager_webapp.User.Logs;
 
 public class LoginRequest {
     private String username;

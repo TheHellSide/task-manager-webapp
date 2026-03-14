@@ -1,6 +1,6 @@
-package com.example.task_manager_webapp.Task;
+package com.example.task_manager_webapp.tasks;
 
-import com.example.task_manager_webapp.User.User;
+import com.example.task_manager_webapp.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

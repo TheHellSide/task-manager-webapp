@@ -1,7 +1,7 @@
-package com.example.task_manager_webapp.Security.Token;
+package com.example.task_manager_webapp.security.tokens;
 
-import com.example.task_manager_webapp.User.User;
-import com.example.task_manager_webapp.User.UserRepository;
+import com.example.task_manager_webapp.users.User;
+import com.example.task_manager_webapp.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

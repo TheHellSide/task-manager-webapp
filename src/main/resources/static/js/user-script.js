@@ -57,23 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const verifyRes = await fetch(`${API_BASE}/me/verify-password`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ password: current })
-            });
-
-            if (!verifyRes.ok) {
-                showError('Current password is incorrect.');
-                return;
-            }
-
             const updateRes = await fetch(`${API_BASE}/me/password`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({ password: newPass })
+                body: JSON.stringify({
+                    password: current,
+                    replacementPassword: newPass
+                })
             });
 
             if (updateRes.ok) {

@@ -1,9 +1,10 @@
-package com.example.task_manager_webapp.Task;
+package com.example.task_manager_webapp.tasks;
 
-import com.example.task_manager_webapp.Security.Token.Token;
-import com.example.task_manager_webapp.Security.Token.TokenRepository;
-import com.example.task_manager_webapp.Security.Token.TokenService;
-import com.example.task_manager_webapp.User.User;
+import com.example.task_manager_webapp.security.tokens.Token;
+import com.example.task_manager_webapp.security.tokens.TokenRepository;
+import com.example.task_manager_webapp.security.tokens.TokenService;
+import com.example.task_manager_webapp.tasks.dto.TaskRequestDTO;
+import com.example.task_manager_webapp.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.beans.Transient;

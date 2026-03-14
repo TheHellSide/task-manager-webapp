@@ -1,4 +1,6 @@
-package com.example.task_manager_webapp.Task;
+package com.example.task_manager_webapp.tasks.dto;
+
+import com.example.task_manager_webapp.tasks.TaskPriority;
 
 import java.time.LocalDate;
 

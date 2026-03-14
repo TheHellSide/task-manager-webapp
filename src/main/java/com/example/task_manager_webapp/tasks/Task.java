@@ -1,6 +1,6 @@
-package com.example.task_manager_webapp.Task;
+package com.example.task_manager_webapp.tasks;
 
-import com.example.task_manager_webapp.User.User;
+import com.example.task_manager_webapp.users.User;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -9,16 +9,7 @@ import java.time.LocalDate;
 @Table
 public class Task {
     @Id
-    @SequenceGenerator(
-            name = "task_sequence",
-            sequenceName = "task_sequence",
-            allocationSize = 1
-    )
-
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "task_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

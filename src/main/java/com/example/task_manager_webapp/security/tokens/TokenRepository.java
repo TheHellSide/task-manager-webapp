@@ -1,6 +1,6 @@
-package com.example.task_manager_webapp.Security.Token;
+package com.example.task_manager_webapp.security.tokens;
 
-import com.example.task_manager_webapp.User.User;
+import com.example.task_manager_webapp.users.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

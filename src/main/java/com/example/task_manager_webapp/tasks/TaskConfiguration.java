@@ -1,10 +1,9 @@
-package com.example.task_manager_webapp.Task;
+package com.example.task_manager_webapp.tasks;
 
-import com.example.task_manager_webapp.User.User;
-import com.example.task_manager_webapp.User.UserRepository;
+import com.example.task_manager_webapp.users.User;
+import com.example.task_manager_webapp.users.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import java.time.LocalDate;
 import java.util.List;

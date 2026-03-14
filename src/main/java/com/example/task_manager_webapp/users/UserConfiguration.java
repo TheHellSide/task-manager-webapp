@@ -1,8 +1,8 @@
-package com.example.task_manager_webapp.User;
+package com.example.task_manager_webapp.users;
 
-import com.example.task_manager_webapp.Task.Task;
-import com.example.task_manager_webapp.Task.TaskPriority;
-import com.example.task_manager_webapp.Task.TaskService;
+import com.example.task_manager_webapp.tasks.Task;
+import com.example.task_manager_webapp.tasks.TaskPriority;
+import com.example.task_manager_webapp.tasks.TaskService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

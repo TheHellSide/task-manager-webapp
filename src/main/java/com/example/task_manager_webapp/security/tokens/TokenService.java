@@ -1,6 +1,6 @@
-package com.example.task_manager_webapp.Security.Token;
+package com.example.task_manager_webapp.security.tokens;
 
-import com.example.task_manager_webapp.User.User;
+import com.example.task_manager_webapp.users.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

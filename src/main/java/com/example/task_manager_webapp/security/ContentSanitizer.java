@@ -1,4 +1,4 @@
-package com.example.task_manager_webapp.Security;
+package com.example.task_manager_webapp.security;
 
 import org.apache.commons.text.StringEscapeUtils;
 

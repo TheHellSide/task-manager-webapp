@@ -1,11 +1,11 @@
-package com.example.task_manager_webapp.User;
+package com.example.task_manager_webapp.users;
 
-import com.example.task_manager_webapp.Security.Token.Token;
-import com.example.task_manager_webapp.Security.Token.TokenRepository;
-import com.example.task_manager_webapp.Security.Token.TokenService;
-import com.example.task_manager_webapp.Task.TaskRepository;
-import com.example.task_manager_webapp.Task.TaskService;
-import com.example.task_manager_webapp.User.Logs.LoginResponse;
+import com.example.task_manager_webapp.security.tokens.Token;
+import com.example.task_manager_webapp.security.tokens.TokenRepository;
+import com.example.task_manager_webapp.security.tokens.TokenService;
+import com.example.task_manager_webapp.tasks.TaskRepository;
+import com.example.task_manager_webapp.tasks.TaskService;
+import com.example.task_manager_webapp.users.dto.login.LoginResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,26 +133,25 @@ public class UserService {
         return true;
     }
 
-    public boolean checkPassword(String token, String oldPassword) {
+    public User checkPassword(String token, String oldPassword) {
         Optional<User> userOptional = getUserFromValidToken(token);
         if (userOptional.isEmpty())
-            return false;
+            return null;
 
         User user = userOptional.get();
 
         if (!user.getPassword().equals(oldPassword)) {
-            return false;
+            return null;
         }
 
-        return true;
+        return user;
     }
 
-    public boolean updateUserPassword(String token, String newPassword) {
-        Optional<User> userOptional = getUserFromValidToken(token);
-        if (userOptional.isEmpty())
-            return false;
+    public boolean updateUserPassword(String token, String oldPassword, String newPassword) {
+        User user = checkPassword(token, oldPassword);
 
-        User user = userOptional.get();
+        if (user == null)
+            return false;
 
         user.setPassword(newPassword);
         userRepository.save(user);

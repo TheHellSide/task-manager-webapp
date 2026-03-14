@@ -1,8 +1,9 @@
-package com.example.task_manager_webapp.User;
+package com.example.task_manager_webapp.users;
 
-import com.example.task_manager_webapp.Security.Token.TokenService;
-import com.example.task_manager_webapp.User.Logs.LoginRequest;
-import com.example.task_manager_webapp.User.Logs.LoginResponse;
+import com.example.task_manager_webapp.security.tokens.TokenService;
+import com.example.task_manager_webapp.users.dto.PasswordRequest;
+import com.example.task_manager_webapp.users.dto.login.LoginRequest;
+import com.example.task_manager_webapp.users.dto.login.LoginResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -113,8 +114,8 @@ public class UserController {
             @CookieValue(name = "authentication-token") String token,
             @RequestBody PasswordRequest passwordRequest
     ) {
-        boolean valid = userService.checkPassword(token, passwordRequest.getPassword());
-        if (valid) {
+        User user = userService.checkPassword(token, passwordRequest.getPassword());
+        if (user != null) {
             return ResponseEntity.ok("Password verified.");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password.");
@@ -126,7 +127,7 @@ public class UserController {
             @RequestBody PasswordRequest passwordRequest
     ) {
 
-        boolean updated = userService.updateUserPassword(token, passwordRequest.getPassword());
+        boolean updated = userService.updateUserPassword(token, passwordRequest.getPassword(), passwordRequest.getReplacementPassword());
         if (updated) {
             return ResponseEntity.ok("Password successfully updated.");
         }

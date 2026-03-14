@@ -1,6 +1,7 @@
-package com.example.task_manager_webapp.Task;
+package com.example.task_manager_webapp.tasks;
 
-import com.example.task_manager_webapp.Security.ContentSanitizer;
+import com.example.task_manager_webapp.security.ContentSanitizer;
+import com.example.task_manager_webapp.tasks.dto.TaskRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

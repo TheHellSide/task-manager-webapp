@@ -1,4 +1,4 @@
-package com.example.task_manager_webapp.User.Logs;
+package com.example.task_manager_webapp.users.dto.login;
 
 public class LoginRequest {
     private String username;

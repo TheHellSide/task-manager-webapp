@@ -52,7 +52,7 @@ public class UserController {
                 .httpOnly(true)
                 .secure(false) // HTTPS = true (localhost = false)
                 .sameSite("Lax")
-                .maxAge(24 * 60 * 60) // 24H
+                .maxAge(30 * 24 * 60 * 60) // 24H * 30
                 .path("/")
                 .build();
 

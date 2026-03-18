@@ -25,7 +25,7 @@ public class UserController {
         this.tokenService = tokenService;
     }
 
-    @PostMapping
+    @PostMapping // TO BAN SPECIAL CHARS.
     public ResponseEntity<String> registerNewUser(@RequestBody User user) {
         boolean registered = userService.registerNewUser(user);
         if (registered) {
@@ -96,7 +96,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
     }
 
-    @PutMapping(path = "/me")
+    @PutMapping(path = "/me") // TO BAN SPECIAL CHARS.
     public ResponseEntity<String> updateUser(
             @CookieValue(name = "authentication-token") String token,
             @RequestParam(required = false) String username,
@@ -122,7 +122,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password.");
     }
 
-    @PutMapping(path = "me/password")
+    @PutMapping(path = "me/password") // TO BAN SPECIAL CHARS.
     public ResponseEntity<String> updateUserPassword(
             @CookieValue(name = "authentication-token") String token,
             @RequestBody PasswordRequest passwordRequest

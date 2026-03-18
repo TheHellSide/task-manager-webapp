@@ -1,7 +1,8 @@
 # Task Manager App (Spring Boot)
 
 A simple and powerful Task Manager web application built with **Java** and **Spring Boot**.
-This project is meant to help you manage your tasks and users efficiently while also serving as a cool portfolio project!
+This project is meant to help you manage your tasks and users efficiently!
+Still work in progress...
 
 ### 🧠 Features
 
@@ -19,7 +20,7 @@ This project is meant to help you manage your tasks and users efficiently while 
 - Java 17+ (Java 24)
 - Spring Boot
 - Spring Data JPA
-- MySQL (configurable)
+- MariaDB (configurable)
 - HTML/CSS/JS
 - Maven
 
@@ -36,14 +37,14 @@ This project is meant to help you manage your tasks and users efficiently while 
 │   │   │   └── com/
 │   │   │       └── example/
 │   │   │           └── task_manager_webapp/
-│   │   │               ├── Security/
+│   │   │               ├── security/
 │   │   │               │   ├── ...
-│   │   │               │   └── Token/
+│   │   │               │   └── tokens/
 │   │   │               │       └── ...
-│   │   │               ├── Task/
+│   │   │               ├── tasks/
 │   │   │               │   └── ...
-│   │   │               ├── User/
-│   │   │               │   ├── Logs/
+│   │   │               ├── users/
+│   │   │               │   ├── dto/
 │   │   │               │   │   └── ...
 │   │   │               │   └── ...
 │   │   │               └── TaskManagerApplication.java

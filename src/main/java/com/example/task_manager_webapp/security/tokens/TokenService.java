@@ -1,5 +1,6 @@
 package com.example.task_manager_webapp.security.tokens;
 
+import static com.example.task_manager_webapp.security.Security.sha256;
 import com.example.task_manager_webapp.users.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,21 +17,26 @@ public class TokenService {
     @Autowired
     private TokenRepository tokenRepository;
 
-    public Token generateToken(User user) {
+    public String generateToken(User user) {
         String tokenString = UUID.randomUUID().toString();
         LocalDateTime creationDate = LocalDateTime.now();
 
         Token token = new Token(
-                tokenString,
+                sha256(tokenString),
                 user,
                 creationDate
         );
-        token.setExpiresAt(creationDate.plusHours(24));
-        return tokenRepository.save(token);
+        token.setExpiresAt(creationDate.plusHours(24 * 30)); // 24H * 30
+        tokenRepository.save(token);
+
+        return tokenString;
     }
 
+    // TESTING FUNCTION
     public boolean extendSession(String token, HttpServletResponse response, int timeInMinutes) {
-        Optional<Token> tokenOpt = tokenRepository.findByToken(token);
+        Optional<Token> tokenOpt = tokenRepository.findByToken(
+                sha256(token)
+        );
 
         if (tokenOpt.isEmpty()) {
             return false;
@@ -55,7 +61,9 @@ public class TokenService {
     }
 
     public boolean isValidToken(String tokenStr) {
-        Optional<Token> tokenOpt = tokenRepository.findByToken(tokenStr);
+        Optional<Token> tokenOpt = tokenRepository.findByToken(
+                sha256(tokenStr)
+        );
         return tokenOpt.isPresent() && tokenOpt.get().getExpiresAt().isAfter(LocalDateTime.now());
     }
 

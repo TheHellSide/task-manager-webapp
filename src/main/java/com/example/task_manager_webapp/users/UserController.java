@@ -70,6 +70,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    // TESTING ENDPOINT
     @PostMapping("/me/extend-session")
     public  ResponseEntity<?> extendUserSession(
             @CookieValue(name = "authentication-token") String token,

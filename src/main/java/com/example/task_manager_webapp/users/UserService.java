@@ -1,5 +1,6 @@
 package com.example.task_manager_webapp.users;
 
+import static com.example.task_manager_webapp.security.Security.sha256;
 import com.example.task_manager_webapp.security.tokens.Token;
 import com.example.task_manager_webapp.security.tokens.TokenRepository;
 import com.example.task_manager_webapp.security.tokens.TokenService;
@@ -63,11 +64,11 @@ public class UserService {
         if (!encoder.matches(password, user.getPassword()))
             return Optional.empty();
 
-        Token userToken = tokenService.generateToken(user);
+        String unhashed_token = tokenService.generateToken(user);
 
         return Optional.of(
                 Map.of(
-                        "token", userToken.getToken(),
+                        "token", unhashed_token,
                         "user", new LoginResponse(
                                 user.getUsername(),
                                 user.getEmail()
@@ -78,14 +79,13 @@ public class UserService {
 
     public void logout(HttpServletResponse response, String token) {
         // DATABASE
-        Optional<User> optionalUser = getUserFromValidToken(token);
+        Optional<User> optionalUser = getUserFromValidToken(
+                sha256(token)
+        );
 
         if (optionalUser.isEmpty()) {
             return;
         }
-
-        //DATABASE
-        tokenRepository.deleteAllByUser(optionalUser.get());
 
         // CLIENT-SIDE
         Cookie cookie = new Cookie("authentication-token", null);
@@ -175,7 +175,9 @@ public class UserService {
 
     private Optional<User> getUserFromValidToken(String token) {
         Optional<Token> userTokenOptional = tokenRepository
-                .findByToken(token);
+                .findByToken(
+                        sha256(token)
+                );
 
         if (userTokenOptional.isEmpty() || !tokenService.isValidToken(token))
             return Optional.empty();

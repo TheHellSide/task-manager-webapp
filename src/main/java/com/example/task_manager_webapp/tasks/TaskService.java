@@ -1,5 +1,6 @@
 package com.example.task_manager_webapp.tasks;
 
+import static com.example.task_manager_webapp.security.Security.sha256;
 import com.example.task_manager_webapp.security.tokens.Token;
 import com.example.task_manager_webapp.security.tokens.TokenRepository;
 import com.example.task_manager_webapp.security.tokens.TokenService;
@@ -26,7 +27,9 @@ public class TaskService {
     }
 
     public Optional<List<Task>> getUserTasks(String token){
-        Optional<Token> tokenOptional = tokenRepository.findByToken(token);
+        Optional<Token> tokenOptional = tokenRepository.findByToken(
+                sha256(token)
+        );
 
         if (
                 tokenOptional.isEmpty() ||
@@ -47,7 +50,9 @@ public class TaskService {
             String token,
             TaskRequestDTO taskDto
     ) {
-        Optional<Token> tokenOptional = tokenRepository.findByToken(token);
+        Optional<Token> tokenOptional = tokenRepository.findByToken(
+                sha256(token)
+        );
 
         if (tokenOptional.isEmpty()) {
             return false;
@@ -85,7 +90,9 @@ public class TaskService {
     // NEVER_USED
     @Transient
     public boolean deleteAllTasks(String token) {
-        Optional<Token> tokenOptional = tokenRepository.findByToken(token);
+        Optional<Token> tokenOptional = tokenRepository.findByToken(
+                sha256(token)
+        );
 
         if (tokenOptional.isEmpty() || !tokenService.isValidToken(token))
             return false;
@@ -165,7 +172,9 @@ public class TaskService {
             Long taskId
     ) {
         Optional<Token> optionalToken = tokenRepository
-                .findByToken(token);
+                .findByToken(
+                        sha256(token)
+                );
 
         // TOKEN-VALIDATION
         if (optionalToken.isEmpty() || !tokenService.isValidToken(token)) {

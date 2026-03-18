@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Configuration
 public class UserConfiguration {
+    private static final BCryptPasswordEncoder encoder =
+            new BCryptPasswordEncoder();
+
     @Bean
     @Order(1)
     CommandLineRunner userCommandLineRunner (UserRepository userRepository, TaskService taskService){
@@ -21,7 +26,7 @@ public class UserConfiguration {
             User admin = new User(
                     "admin@admin.com",
                     "admin",
-                    "admin123"
+                    encoder.encode("admin123")
             );
 
             for (User user : List.of(admin)){
@@ -44,7 +49,7 @@ public class UserConfiguration {
 
     private boolean userExists(UserRepository userRepository, String username, String email){
         Optional<User> userOptional = userRepository
-                .findUserByUsernameOrEmail(username, email);
+                .findByUsernameOrEmail(username, email);
 
         return userOptional.isPresent();
     }

@@ -1,6 +1,6 @@
 package com.example.task_manager_webapp.tasks;
 
-import com.example.task_manager_webapp.security.ContentSanitizer;
+import com.example.task_manager_webapp.security.Security;
 import com.example.task_manager_webapp.tasks.dto.TaskRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +28,10 @@ public class TaskController {
             List<Task> tasks = userTaskOptional.get();
             for (Task task : tasks) {
                 task.setTitle(
-                        ContentSanitizer.toSafeHtml(task.getTitle())
+                        Security.toSafeHtml(task.getTitle())
                 );
                 task.setDescription(
-                        ContentSanitizer.toSafeHtml(task.getDescription())
+                        Security.toSafeHtml(task.getDescription())
                 );
             }
             return ResponseEntity.ok(tasks);

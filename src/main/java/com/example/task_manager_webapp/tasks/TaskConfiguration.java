@@ -14,7 +14,7 @@ public class TaskConfiguration {
     @Order(2)
     CommandLineRunner taskCommandLineRunner(TaskRepository taskRepository, UserRepository userRepository) {
         return args -> {
-            User admin = userRepository.findUserByEmail("admin@admin.com")
+            User admin = userRepository.findByEmail("admin@admin.com")
                     .orElseThrow(() -> new IllegalStateException("User not found"));
 
             Task DEFAULT_TASK = new Task(

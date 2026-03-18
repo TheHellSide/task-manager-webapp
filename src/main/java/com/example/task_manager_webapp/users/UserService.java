@@ -9,6 +9,7 @@ import com.example.task_manager_webapp.users.dto.login.LoginResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+    private final BCryptPasswordEncoder encoder; // TO IMPLEMENT.
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final TaskRepository taskRepository;
@@ -24,7 +26,8 @@ public class UserService {
     private final TokenService tokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, TokenRepository tokenRepository, TaskRepository  taskRepository, TokenService tokenService, TaskService taskService) {
+    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository, TokenRepository tokenRepository, TaskRepository  taskRepository, TokenService tokenService, TaskService taskService) {
+        this.encoder = bCryptPasswordEncoder;
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.taskRepository  = taskRepository;
@@ -33,10 +36,15 @@ public class UserService {
     }
 
     public boolean registerNewUser(User user) {
-        Optional<User> optionalUser = Optional.ofNullable(userRepository
-                .findByUsernameOrEmail(user.getUsername(), user.getEmail()));
+        Optional<User> optionalUser = userRepository
+                .findByUsernameOrEmail(user.getUsername(), user.getEmail());
 
         if (optionalUser.isEmpty()){
+            user.setPassword(
+                    encoder.encode(
+                            user.getPassword()
+                    ));
+
             userRepository.save(user);
             taskService.createDefaultTask(user);
 
@@ -47,8 +55,12 @@ public class UserService {
     }
 
     public Optional<Map<String, Object>> login(String username, String password) {
-        User user = userRepository.findByUsernameAndPassword(username, password);
-        if (user == null)
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isEmpty())
+            return Optional.empty();
+
+        User user = userOptional.get();
+        if (!encoder.matches(password, user.getPassword()))
             return Optional.empty();
 
         Token userToken = tokenService.generateToken(user);
@@ -116,14 +128,14 @@ public class UserService {
         User user = optionalUser.get();
 
         if (StringUtils.hasText(username) && !username.equals(user.getUsername())) {
-            Optional<User> userOptional = userRepository.findUserByUsername(username);
+            Optional<User> userOptional = userRepository.findByUsername(username);
 
             if (userOptional.isEmpty())
                 user.setUsername(username);
         }
 
         if (StringUtils.hasText(email) && !email.equals(user.getEmail())) {
-            Optional<User> userOptional = userRepository.findUserByEmail(email);
+            Optional<User> userOptional = userRepository.findByEmail(email);
 
             if (userOptional.isEmpty())
                 user.setEmail(email);
@@ -140,7 +152,7 @@ public class UserService {
 
         User user = userOptional.get();
 
-        if (!user.getPassword().equals(oldPassword)) {
+        if (!encoder.matches(oldPassword, user.getPassword())) {
             return null;
         }
 
@@ -153,7 +165,10 @@ public class UserService {
         if (user == null)
             return false;
 
-        user.setPassword(newPassword);
+        user.setPassword(
+                encoder.encode(newPassword)
+        );
+        
         userRepository.save(user);
         return true;
     }

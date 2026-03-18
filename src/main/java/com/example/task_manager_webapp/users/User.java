@@ -1,5 +1,7 @@
 package com.example.task_manager_webapp.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -15,7 +17,7 @@ public class User {
 
     @Column(unique = true)
     private String username;
-    private String password;
+    private String hashed_password;
 
     @JsonIgnore
     private boolean defaultTaskCreated;
@@ -24,10 +26,10 @@ public class User {
 
     }
 
-    public User(String email, String username, String password) {
+    public User(String email, String username, String hashed_password) {
         this.email = email;
         this.username = username;
-        this.password = password;
+        this.hashed_password = hashed_password;
     }
 
     public Long getId() {
@@ -51,10 +53,10 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return hashed_password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String hashed_password) {
+        this.hashed_password = hashed_password;
     }
 }

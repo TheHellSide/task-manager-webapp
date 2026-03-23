@@ -1,7 +1,3 @@
-// ─────────────────────────────────────────────
-//  inputSanitizer.js  –  Global input filters
-// ─────────────────────────────────────────────
-
 /**
  * Username: solo lettere, cifre e underscore.
  * Niente trattini → niente possibilità di formare "--".

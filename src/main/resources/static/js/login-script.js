@@ -8,23 +8,26 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     errorDiv.style.display = 'none';
     errorDiv.textContent = '';
 
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
+    const rawUsername = document.getElementById('username').value;
+    const rawPassword = document.getElementById('password').value;
+
+    const username = sanitizeUsername(rawUsername);
+    const password = sanitizePassword(rawPassword);
+
+    if (warnIfInvalidChars(rawUsername, username, 'Username'))
+        return;
 
     try {
         const res = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include', // COOKIE-HANDLING
+            credentials: 'include',
             body: JSON.stringify({ username, password }),
         });
 
         if (res.ok) {
-            // USER-DATA
             const userData = await res.json();
             localStorage.setItem('loggedUser', JSON.stringify(userData));
-
-            // REDIRECT
             window.location.href = 'dashboard.html';
         }
         else if (res.status === 401) {

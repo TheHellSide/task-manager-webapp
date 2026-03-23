@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById('username').value = loggedUser.username;
-    document.getElementById('email').value = loggedUser.email;
+    document.getElementById('email').value    = loggedUser.email;
 
     const API_BASE = 'http://localhost:8080/api/v1/user';
 
@@ -16,8 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         clearMessages();
 
-        const username = document.getElementById('username').value.trim();
-        const email = document.getElementById('email').value.trim();
+        const rawUsername = document.getElementById('username').value;
+        const rawEmail    = document.getElementById('email').value;
+
+        const username = sanitizeUsername(rawUsername);
+        const email    = sanitizeEmail(rawEmail);
+
+        if (warnIfInvalidChars(rawUsername, username, 'Username'))
+            return;
+        if (warnIfInvalidChars(rawEmail, email, 'Email'))
+            return;
 
         try {
             const res = await fetch(`${API_BASE}/me`, {
@@ -30,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (res.ok) {
                 showSuccess('User information updated successfully.');
                 loggedUser.username = username;
-                loggedUser.email = email;
+                loggedUser.email    = email;
                 localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
             } else {
                 const msg = await res.text();
@@ -47,9 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         clearMessages();
 
-        const current = document.getElementById('currentPassword').value;
-        const newPass = document.getElementById('newPassword').value;
-        const confirmPass = document.getElementById('confirmPassword').value;
+        const current     = sanitizePassword(document.getElementById('currentPassword').value);
+        const newPass     = sanitizePassword(document.getElementById('newPassword').value);
+        const confirmPass = sanitizePassword(document.getElementById('confirmPassword').value);
 
         if (newPass !== confirmPass) {
             showError('New passwords do not match.');
@@ -97,7 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const msg = await res.text();
                 showError(msg);
             }
-        } catch (err) {
+        }
+        catch (err) {
             showError('Network error: ' + err.message);
         }
     });
@@ -105,20 +114,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function showError(message) {
     const msg = document.getElementById('message');
-    msg.className = 'alert alert-danger';
-    msg.textContent = message;
+    msg.className    = 'alert alert-danger';
+    msg.textContent  = message;
     msg.style.display = 'block';
 }
 
 function showSuccess(message) {
     const msg = document.getElementById('message');
-    msg.className = 'alert alert-success';
-    msg.textContent = message;
+    msg.className    = 'alert alert-success';
+    msg.textContent  = message;
     msg.style.display = 'block';
 }
 
 function clearMessages() {
     const msg = document.getElementById('message');
     msg.style.display = 'none';
-    msg.textContent = '';
+    msg.textContent   = '';
 }

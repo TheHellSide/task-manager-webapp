@@ -8,35 +8,42 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     errorDiv.style.display = 'none';
     errorDiv.textContent = '';
 
-    const email = document.getElementById('email').value.trim();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
+    const rawEmail         = document.getElementById('email').value;
+    const rawUsername      = document.getElementById('username').value;
+    const rawPassword      = document.getElementById('password').value;
     const confirm_password = document.getElementById('confirm-password').value;
 
-    if (password !== confirm_password) {
-        errorDiv.textContent = "Passwords do not match.";
+    const clean = sanitizeForm(
+        { email: 'email', username: 'username', password: 'password' },
+        { email: rawEmail, username: rawUsername, password: rawPassword }
+    );
+
+    if (warnIfInvalidChars(rawEmail, clean.email, 'Email'))
+        return;
+    if (warnIfInvalidChars(rawUsername, clean.username, 'Username'))
+        return;
+
+    if (clean.password !== confirm_password) {
+        errorDiv.textContent = 'Passwords do not match.';
         errorDiv.style.display = 'block';
         return;
     }
 
-    const userData = { email, username, password };
+    const userData = { email: clean.email, username: clean.username, password: clean.password };
 
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData)
         });
 
         if (response.status === 201) {
-            // REGISTRATION REDIRECT
             window.location.href = 'login.html';
         }
         else if (response.status === 400) {
             const errorMessage = await response.text();
-            errorDiv.textContent = "Registration failed: " + errorMessage;
+            errorDiv.textContent = 'Registration failed: ' + errorMessage;
             errorDiv.style.display = 'block';
         }
         else {

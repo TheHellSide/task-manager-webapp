@@ -2,7 +2,7 @@
 
 <img src="src/main/resources/static/images/logo_light.svg" alt="Task Manager Logo" width="120" height="120" />
 
-# Task Manager WebApp
+# TASKFLOW
 
 **A full-stack task management application built with Java & Spring Boot.**  
 Organize your work, track priorities, and manage your account — all in one clean, responsive interface.
@@ -22,7 +22,7 @@ Organize your work, track priorities, and manage your account — all in one cle
 
 ## 📋 Overview
 
-**Task Manager WebApp** is a production-ready, full-stack web application that gives users a central hub for creating, prioritizing, and tracking tasks. Built on **Spring Boot 3.5.4** and backed by **MariaDB**, it follows a clean MVC architecture with a RESTful API backend and a vanilla HTML/CSS/JavaScript frontend. No JavaScript frameworks — just clean, fast, dependency-light code.
+**TASKFLOW** is a production-ready, full-stack web application that gives users a central hub for creating, prioritizing, and tracking tasks. Built on **Spring Boot 3.5.4** and backed by **MariaDB**, it follows a clean MVC architecture with a RESTful API backend and a vanilla HTML/CSS/JavaScript frontend. No JavaScript frameworks — just clean, fast, dependency-light code.
 
 Key highlights:
 - 🔐 **Secure by design** — BCrypt hashing, HttpOnly cookies, input sanitization, SameSite CSRF protection
@@ -121,37 +121,37 @@ Key highlights:
 ### Architecture
 
 ```
-Client (Browser)
-      │
-      │  HTTP/HTTPS
-      ▼
-┌─────────────────────────────────────────┐
-│         Spring Boot Application         │
-│                                         │
-│  ┌─────────┐  ┌────────────────────┐   │
-│  │ Static  │  │   REST Controllers │   │
-│  │ Assets  │  │  /api/v1/user      │   │
-│  │ HTML /  │  │  /api/v1/task      │   │
-│  │ CSS/JS  │  │  /api/v1/token     │   │
-│  └─────────┘  └────────┬───────────┘   │
-│                         │               │
-│               ┌─────────▼──────────┐   │
-│               │   Service Layer    │   │
-│               │  Business Logic /  │   │
-│               │  Auth Validation   │   │
-│               └─────────┬──────────┘   │
-│                         │               │
-│               ┌─────────▼──────────┐   │
-│               │  Repository Layer  │   │
-│               │  Spring Data JPA   │   │
-│               └─────────┬──────────┘   │
-└─────────────────────────┼─────────────┘
-                          │
-                ┌─────────▼──────────┐
-                │      MariaDB       │
-                │  task_manager_     │
-                │     webapp         │
-                └────────────────────┘
+          ┌────────────────────┐
+          │  Client (Browser)  │
+          └────────────────────┘          
+                    │
+                HTTP/HTTPS
+                    ▼
+┌───────────────────────────────────────┐
+│         Spring Boot Application       │
+│  ┌─────────┐  ┌────────────────────┐  │
+│  │ Static  │  │  REST Controllers  │  │
+│  │ Assets  │  │  - /api/v1/user    │  │
+│  │ HTML /  │  │  - /api/v1/task    │  │
+│  │ CSS/JS  │  │  - /api/v1/token   │  │
+│  └─────────┘  └────────────────────┘  │
+│                   │                   │
+│         ┌─────────▼──────────┐        │
+│         │   Service Layer    │        │
+│         │  Business Logic /  │        │
+│         │  Auth Validation   │        │
+│         └─────────┬──────────┘        │
+│                   │                   │
+│         ┌─────────▼──────────┐        │
+│         │  Repository Layer  │        │
+│         │  Spring Data JPA   │        │
+│         └─────────┬──────────┘        │
+└───────────────────┼───────────────────┘
+                    │
+         ┌──────────▼─────────┐
+         │      MariaDB -     │
+         │      TASKFLOW      │
+         └────────────────────┘
 ```
 
 ---
@@ -550,18 +550,6 @@ Contributions, issues, and feature requests are welcome!
 Please keep PRs focused on a single feature or bug fix and include a clear description of what changed and why.
 
 ---
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE) — feel free to use, fork, and adapt it.
-
----
-
-## 👤 Author
-
-<div align="center">
-
-Made with ❤️ by **TheHellSide**
 
 [![GitHub](https://img.shields.io/badge/GitHub-TheHellSide-181717?style=for-the-badge&logo=github)](https://github.com/TheHellSide)
 

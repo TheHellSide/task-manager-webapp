@@ -36,4 +36,35 @@ public class Security {
             throw new RuntimeException(ex);
         }
     }
+
+    public static String sanitizeUsername(String value) {
+        if (value == null) return null;
+        return value
+                .replaceAll("[^a-zA-Z0-9_]", "")
+                .substring(0, Math.min(value.replaceAll("[^a-zA-Z0-9_]", "").length(), 32))
+                .trim();
+    }
+
+    public static String sanitizeEmail(String value) {
+        if (value == null) return null;
+        String cleaned = value.replaceAll("[^a-zA-Z0-9._%+\\-@]", "");
+        return cleaned.substring(0, Math.min(cleaned.length(), 254)).trim();
+    }
+
+    public static String sanitizePassword(String value) {
+        if (value == null) return null;
+        String cleaned = value
+                .replaceAll("[\\x00-\\x1F\\x7F]", "")
+                .replace("<", "")
+                .replace(">", "");
+        return cleaned.substring(0, Math.min(cleaned.length(), 128));
+    }
+
+    public static String sanitizeText(String value) {
+        if (value == null) return null;
+        String cleaned = value
+                .replaceAll("[^a-zA-Z0-9\\s.,!?@()\\-'\";\\'{}\\[\\]+*/=<>~^%&|\\\\]", "")
+                .replaceAll("\\s{2,}", " ");
+        return cleaned.substring(0, Math.min(cleaned.length(), 255)).trim();
+    }
 }

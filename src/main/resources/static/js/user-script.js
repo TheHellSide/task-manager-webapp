@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById('username').value = loggedUser.username;
-    document.getElementById('email').value    = loggedUser.email;
+    document.getElementById('email').value = loggedUser.email;
 
     const API_BASE = 'http://localhost:8080/api/v1/user';
 
@@ -17,10 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
         clearMessages();
 
         const rawUsername = document.getElementById('username').value;
-        const rawEmail    = document.getElementById('email').value;
+        const rawEmail = document.getElementById('email').value;
 
         const username = sanitizeUsername(rawUsername);
-        const email    = sanitizeEmail(rawEmail);
+        const email = sanitizeEmail(rawEmail);
 
         if (warnIfInvalidChars(rawUsername, username, 'Username'))
             return;

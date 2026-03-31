@@ -42,8 +42,8 @@ function sanitizePassword(value) {
 function sanitizeText(value) {
     if (typeof value !== 'string') return '';
     return value
-        .replace(/[^a-zA-Z0-9\s.,!?@()\-]/g, '')  // whitelist esplicita
-        .replace(/\s{2,}/g, ' ')                   // spazi multipli → uno
+        .replace(/[^a-zA-Z0-9\s.,!?@()\-'";\[\]{}+*\/=<>~^%&|\\]/g, '')
+        .replace(/\s{2,}/g, ' ')
         .slice(0, 255)
         .trim();
 }

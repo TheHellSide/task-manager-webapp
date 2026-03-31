@@ -39,8 +39,8 @@ async function loadTasks() {
             const card = document.createElement("div");
             card.className = `mb-3 ${getPriorityClass(task.priority)}`;
             card.innerHTML = `
-                <h5 class="task-title"><b>${task.title}</b></h5>
-                <p class="task-description">${task.description || ""}</p>
+                <h5 class="task-title"><b>${sanitizeText(task.title)}</b></h5>
+                <p class="task-description">${sanitizeText(task.description || "")}</p>
                 <p>
                     <small class="data-content"><span class="data-title">Created:</span> ${task.creationDate || ""}</small><br/>
                     <small class="data-content"><span class="data-title">Due:</span> ${task.dueDate || ""}</small>
@@ -78,8 +78,8 @@ async function startEditTask(id) {
         document.getElementById("cancelEditBtn").classList.remove("d-none");
 
         document.getElementById("taskId").value = task.id || "";
-        document.getElementById("title").value = task.title || "";
-        document.getElementById("description").value = task.description || "";
+        document.getElementById("title").value = sanitizeText(task.title || "");
+        document.getElementById("description").value = sanitizeText(task.description || "");
         document.getElementById("creationDate").value = task.creationDate || "";
         document.getElementById("dueDate").value = task.dueDate || "";
         document.getElementById("priority").value = task.priority || "LOW";
@@ -99,8 +99,8 @@ document.getElementById("taskForm").addEventListener("submit", async e => {
 
     const taskId = document.getElementById("taskId").value;
     const payload = {
-        title: document.getElementById("title").value,
-        description: document.getElementById("description").value,
+        title: sanitizeText(document.getElementById("title").value),
+        description: sanitizeText(document.getElementById("description").value),
         dueDate: document.getElementById("dueDate").value,
         priority: document.getElementById("priority").value,
     };

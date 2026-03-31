@@ -4,6 +4,7 @@ import com.example.task_manager_webapp.security.tokens.TokenService;
 import com.example.task_manager_webapp.users.dto.PasswordRequest;
 import com.example.task_manager_webapp.users.dto.login.LoginRequest;
 import com.example.task_manager_webapp.users.dto.login.LoginResponse;
+import com.example.task_manager_webapp.users.dto.register.RegistrationRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping // TO BAN SPECIAL CHARS.
-    public ResponseEntity<String> registerNewUser(@RequestBody User user) {
+    public ResponseEntity<String> registerNewUser(@RequestBody RegistrationRequest user) {
         boolean registered = userService.registerNewUser(user);
         if (registered) {
             return ResponseEntity.status(HttpStatus.CREATED).body("User successfully registered.");

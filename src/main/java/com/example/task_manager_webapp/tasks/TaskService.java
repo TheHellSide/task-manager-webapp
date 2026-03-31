@@ -1,11 +1,14 @@
 package com.example.task_manager_webapp.tasks;
 
 import static com.example.task_manager_webapp.security.Security.sha256;
+
+import com.example.task_manager_webapp.security.Security;
 import com.example.task_manager_webapp.security.tokens.Token;
 import com.example.task_manager_webapp.security.tokens.TokenRepository;
 import com.example.task_manager_webapp.security.tokens.TokenService;
 import com.example.task_manager_webapp.tasks.dto.TaskRequestDTO;
 import com.example.task_manager_webapp.users.User;
+import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.beans.Transient;
@@ -59,8 +62,8 @@ public class TaskService {
         }
 
         Task task = new Task(
-                taskDto.getTitle(),
-                taskDto.getDescription(),
+                Security.sanitizeText(taskDto.getTitle()),
+                Security.sanitizeText(taskDto.getDescription()),
                 taskDto.getDueDate(),
                 taskDto.getPriority(),
                 tokenOptional.get().getUser()
@@ -120,11 +123,11 @@ public class TaskService {
         Task task = optionalTask.get();
 
         if (title != null && !title.isBlank()) {
-            task.setTitle(title);
+            task.setTitle(Security.sanitizeText(title));
         }
 
         if (description != null && !description.isBlank()) {
-            task.setDescription(description);
+            task.setDescription(Security.sanitizeText(description));
         }
 
         if (dueDate != null) {

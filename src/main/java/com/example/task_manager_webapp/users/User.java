@@ -27,6 +27,9 @@ public class User {
     }
 
     public User(String email, String username, String hashed_password) {
+        if (email == null || username == null || hashed_password == null)
+            throw new IllegalArgumentException("All fields are required.");
+
         this.email = email;
         this.username = username;
         this.hashed_password = hashed_password;

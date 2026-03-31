@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager - Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/user-style.css">
     <script>
         // THEME
         (function () {
@@ -11,55 +14,78 @@
             document.documentElement.setAttribute("data-bs-theme", theme);
         })();
     </script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/user-style.css">
 </head>
+
 <body class="bg-body text-body">
-    <div class="top-buttons">
-        <button class="btn btn-outline-secondary theme-toggle" id="themeBtn">🌙</button>
-        <a href="dashboard.html" class="btn btn-outline-primary">📆</a>
-        <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
-    </div>
 
-    <div class="container py-5">
-        <h2 class="mb-4">Profile Settings</h2>
+<!-- NAVBAR TOP BUTTONS -->
+<div class="top-buttons">
+    <button class="btn btn-outline-secondary theme-toggle" id="themeBtn">
+        <img src="../resources/static/images/logo_light.svg" alt="Theme Icon">
+    </button>
+    <a href="dashboard.html" class="btn btn-outline-primary">📆</a>
+    <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+</div>
 
-        <div id="message" class="alert" style="display: none;"></div>
+    <!-- CONTAINER PROFILO -->
+    <div class="profile-container">
 
-        <!-- UPDATE USER-INFORMATIONS -->
-        <form id="updateForm" class="mb-5">
-            <h5>Update Username & Email</h5>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" id="username" class="form-control" required />
+        <!-- COLONNA SINISTRA: IMMAGINE + POLICY -->
+        <div class="profile-image-wrapper">
+            <img src="../images/profile/robot.png" alt="Profile Image" id="profileImage">
+            <!-- SOLO DUE COLONNE -->
+            <div class="policy-text">
+                * <em>
+                Your personal data is securely stored using state-of-the-art encryption and compliant protocols.
+                We respect your privacy and ensure that all information is handled according to international data protection laws.
+                Access to your data is strictly limited to authorized personnel, and every action is logged for auditing purposes.
+                Your credentials and activity are safeguarded with multi-layered security measures.
+                You can confidently manage your account knowing your information is protected and privacy rights are fully upheld.
+            </em> *
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" class="form-control" required />
-            </div>
-            <button type="submit" class="btn btn-success">Update User</button>
-        </form>
+        </div>
 
-        <!-- CHANGE PASSWORD -->
-        <form id="passwordForm" class="mb-5">
-            <h5>Change Password</h5>
-            <div class="mb-3">
-                <label for="currentPassword" class="form-label">Current Password</label>
-                <input type="password" id="currentPassword" class="form-control" required />
-            </div>
-            <div class="mb-3">
-                <label for="newPassword" class="form-label">New Password</label>
-                <input type="password" id="newPassword" class="form-control" required />
-            </div>
-            <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                <input type="password" id="confirmPassword" class="form-control" required />
-            </div>
-            <button type="submit" class="btn btn-warning">Change Password</button>
-        </form>
+        <!-- COLONNA DESTRA: FORMS -->
+        <div class="profile-forms">
+            <div id="message" class="alert" style="display: none;"></div>
 
-        <hr>
-        <button id="deleteBtn" class="btn btn-danger">Delete My Account</button>
+            <!-- UPDATE USER -->
+            <form id="updateForm">
+                <h5>Update Username & Email</h5>
+                <div class="mb-4">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" class="form-control" required />
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-success w-100 mb-3">Update User</button>
+            </form>
+
+            <hr class="form-divider">
+
+            <!-- CHANGE PASSWORD -->
+            <form id="passwordForm">
+                <h5>Change Password</h5>
+                <div class="mb-4">
+                    <label for="currentPassword" class="form-label">Current Password</label>
+                    <input type="password" id="currentPassword" class="form-control" required />
+                </div>
+                <div class="mb-4">
+                    <label for="newPassword" class="form-label">New Password</label>
+                    <input type="password" id="newPassword" class="form-control" required />
+                </div>
+                <div class="mb-4">
+                    <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-warning w-100 mb-3">Change Password</button>
+            </form>
+
+            <button id="deleteBtn" class="btn btn-danger w-100">Delete My Account</button>
+        </div>
+
     </div>
 
     <script src="js/global/theme-toggle.js"></script>

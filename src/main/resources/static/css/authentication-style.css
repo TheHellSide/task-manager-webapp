@@ -1,5 +1,6 @@
 body, html {
     height: 100%;
+    font-family: 'Nunito', sans-serif;
 }
 
 .center-container {
@@ -23,12 +24,30 @@ body, html {
 .theme-hash {
     position: absolute;
     top: 1rem;
-    right: 1.2rem;
-    font-size: 1.2rem;
+    right: 1rem;
+    font-size: 1rem;
     cursor: pointer;
-    color: var(--bs-secondary-color);
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: #6c757d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.theme-hash:hover {
-    color: var(--bs-primary);
+.theme-hash:hover,
+.theme-hash:focus {
+    background-color: transparent !important;
+    color: #6c757d !important;
+    box-shadow: none !important;
+    outline: none !important;
+    text-decoration: none;
+}
+
+.theme-hash img {
+    width: 15px;
+    height: 15px;
+    display: block;
 }

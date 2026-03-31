@@ -1,12 +1,16 @@
 package com.example.task_manager_webapp.users;
 
 import static com.example.task_manager_webapp.security.Security.sha256;
+
+import com.example.task_manager_webapp.security.Security;
 import com.example.task_manager_webapp.security.tokens.Token;
 import com.example.task_manager_webapp.security.tokens.TokenRepository;
 import com.example.task_manager_webapp.security.tokens.TokenService;
 import com.example.task_manager_webapp.tasks.TaskRepository;
 import com.example.task_manager_webapp.tasks.TaskService;
 import com.example.task_manager_webapp.users.dto.login.LoginResponse;
+import com.example.task_manager_webapp.users.dto.register.RegistrationRequest;
+import com.example.task_manager_webapp.users.mapper.UserMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +40,17 @@ public class UserService {
         this.tokenService = tokenService;
     }
 
-    public boolean registerNewUser(User user) {
+    public boolean registerNewUser(RegistrationRequest registrationRequest) {
         Optional<User> optionalUser = userRepository
-                .findByUsernameOrEmail(user.getUsername(), user.getEmail());
+                .findByUsernameOrEmail(registrationRequest.getUsername(), registrationRequest.getEmail());
 
         if (optionalUser.isEmpty()){
-            user.setPassword(
-                    encoder.encode(
-                            user.getPassword()
-                    ));
+            User user = UserMapper.fromRequest(
+                    registrationRequest
+            );
+
+            if (user == null)
+                return false;
 
             userRepository.save(user);
             taskService.createDefaultTask(user);
@@ -121,6 +127,7 @@ public class UserService {
             String username,
             String email
     ) {
+        username = Security.sanitizeUsername(username); email = Security.sanitizeEmail(email);
         Optional<User> optionalUser = getUserFromValidToken(token);
         if (optionalUser.isEmpty())
             return false;

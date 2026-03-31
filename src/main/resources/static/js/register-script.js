@@ -8,9 +8,9 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     errorDiv.style.display = 'none';
     errorDiv.textContent = '';
 
-    const rawEmail         = document.getElementById('email').value;
-    const rawUsername      = document.getElementById('username').value;
-    const rawPassword      = document.getElementById('password').value;
+    const rawEmail = document.getElementById('email').value;
+    const rawUsername = document.getElementById('username').value;
+    const rawPassword = document.getElementById('password').value;
     const confirm_password = document.getElementById('confirm-password').value;
 
     const clean = sanitizeForm(

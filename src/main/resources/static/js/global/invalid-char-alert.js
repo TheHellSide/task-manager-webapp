@@ -1,5 +1,4 @@
 (function () {
-    // ── Inject CSS ──────────────────────────────
     const style = document.createElement('style');
     style.textContent = `
         #invalid-char-overlay {
@@ -113,7 +112,6 @@
     `;
     document.head.appendChild(style);
 
-    // ── Inject HTML ─────────────────────────────
     const overlay = document.createElement('div');
     overlay.id = 'invalid-char-overlay';
     overlay.setAttribute('role', 'dialog');
@@ -129,7 +127,6 @@
     `;
     document.body.appendChild(overlay);
 
-    // ── Close handlers ──────────────────────────
     document.getElementById('invalid-char-close').addEventListener('click', hideInvalidCharAlert);
     overlay.addEventListener('click', function (e) {
         if (e.target === overlay) hideInvalidCharAlert();
@@ -142,20 +139,6 @@
         overlay.classList.remove('visible');
     }
 
-    // ── Public API ──────────────────────────────
-    /**
-     * Mostra l'alert se il valore sanitizzato differisce dall'originale.
-     *
-     * @param {string} rawValue       - Valore originale inserito dall'utente
-     * @param {string} cleanValue     - Valore dopo la sanitizzazione
-     * @param {string} [fieldLabel]   - Nome del campo (opzionale, es. "Username")
-     *
-     * @returns {boolean} true se erano presenti caratteri invalidi
-     *
-     * @example
-     *   const clean = sanitizeUsername(raw);
-     *   warnIfInvalidChars(raw, clean, 'Username');
-     */
     window.warnIfInvalidChars = function (rawValue, cleanValue, fieldLabel = 'Campo') {
         if (rawValue === cleanValue) return false;
 
@@ -174,7 +157,6 @@
         const list = document.getElementById('invalid-chars-list');
         list.innerHTML = '';
 
-        // Mostra i caratteri trovati non nella whitelist
         const invalidFound = findInvalidChars(rawValue, cleanValue);
         if (invalidFound.length > 0) {
             invalidFound.forEach(ch => {

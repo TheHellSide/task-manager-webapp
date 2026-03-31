@@ -2,8 +2,6 @@
 
 <img src="src/main/resources/static/images/logo_light.svg" alt="TaskFlow Logo" width="250" height="250" />
 
-# TASK FLOW
-
 **A full-stack task management application built with Java & Spring Boot.**
 Organize your work, track priorities, and manage your account — all in one clean, responsive interface.
 
@@ -516,20 +514,8 @@ Contributions, issues, and feature requests are welcome!
 
 Please keep PRs focused on a single feature or bug fix and include a clear description of what changed and why.
 
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE) — feel free to use, fork, and adapt it.
-
----
-
 <div align="center">
 
-Made with ❤️ by **TheHellSide**
-
 [![GitHub](https://img.shields.io/badge/GitHub-TheHellSide-181717?style=for-the-badge&logo=github)](https://github.com/TheHellSide)
-
-If you find this project useful, please consider leaving a ⭐ — it means a lot!
 
 </div>

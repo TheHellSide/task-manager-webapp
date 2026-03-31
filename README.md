@@ -392,10 +392,10 @@ All task endpoints require the `authentication-token` cookie.
 
 | Value | Indicator | Meaning |
 |---|---|---|
-| `HIGH` | 🔴 Red | Urgent task |
-| `MEDIUM` | 🟡 Yellow | Standard priority |
-| `LOW` | 🟢 Green | Low urgency |
-| `EXPIRED` | ⚫ Gray | Past due date — auto-assigned by the server |
+| `HIGH` | RED | Urgent task |
+| `MEDIUM` | YELLOW | Standard priority |
+| `LOW` | GREEN | Low urgency |
+| `EXPIRED` | GRAY | Past due date — auto-assigned by the server |
 | `DEFAULT` | — | Example / placeholder task |
 
 #### Create Task — `POST /api/v1/task`
@@ -451,7 +451,7 @@ spring.application.name=task-manager-webapp
 # ── Database ─────────────────────────────────────────────────────────────────
 spring.datasource.url=jdbc:mariadb://localhost:3306/task_manager_webapp
 spring.datasource.username=root
-spring.datasource.password=admin123          # ⚠️ Change this!
+spring.datasource.password=admin123 # Change this!
 spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
 
 # ── JPA / Hibernate ──────────────────────────────────────────────────────────

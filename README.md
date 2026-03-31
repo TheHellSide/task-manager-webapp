@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="src/main/resources/static/images/logo_light.svg" alt="TaskFlow Logo" width="120" height="120" />
+<img src="src/main/resources/static/images/logo_light.svg" alt="TaskFlow Logo" width="250" height="250" />
 
-# TaskFlow
+# TASK FLOW
 
 **A full-stack task management application built with Java & Spring Boot.**
 Organize your work, track priorities, and manage your account — all in one clean, responsive interface.
@@ -114,42 +114,6 @@ Organize your work, track priorities, and manage your account — all in one cle
 | JavaScript (ES6+) | — | Client-side interactivity (no frameworks) |
 | Bootstrap | 5.3.3 | Responsive layout and components |
 | Google Fonts (Nunito) | — | Typography |
-
-### Architecture
-
-```
-          ┌────────────────────┐
-          │  Client (Browser)  │
-          └────────────────────┘
-                    │
-                HTTP/HTTPS
-                    ▼
-┌───────────────────────────────────────┐
-│         Spring Boot Application       │
-│  ┌─────────┐  ┌────────────────────┐  │
-│  │ Static  │  │  REST Controllers  │  │
-│  │ Assets  │  │  - /api/v1/user    │  │
-│  │ HTML /  │  │  - /api/v1/task    │  │
-│  │ CSS/JS  │  │  - /api/v1/token   │  │
-│  └─────────┘  └────────────────────┘  │
-│                   │                   │
-│         ┌─────────▼──────────┐        │
-│         │   Service Layer    │        │
-│         │  Business Logic /  │        │
-│         │  Auth Validation   │        │
-│         └─────────┬──────────┘        │
-│                   │                   │
-│         ┌─────────▼──────────┐        │
-│         │  Repository Layer  │        │
-│         │  Spring Data JPA   │        │
-│         └─────────┬──────────┘        │
-└───────────────────┼───────────────────┘
-                    │
-         ┌──────────▼─────────┐
-         │      MariaDB —     │
-         │      TaskFlow      │
-         └────────────────────┘
-```
 
 ---
 

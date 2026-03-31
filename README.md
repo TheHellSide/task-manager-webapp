@@ -16,6 +16,8 @@ Organize your work, track priorities, and manage your account — all in one cle
 
 [Features](#-features) · [Screenshots](#-screenshots) · [Tech Stack](#-tech-stack) · [Quick Start](#-quick-start) · [API Reference](#-api-reference) · [Configuration](#-configuration) · [Security](#-security)
 
+</div>
+
 ---
 
 ## 📋 Overview
@@ -66,6 +68,8 @@ Organize your work, track priorities, and manage your account — all in one cle
 
 ## 📸 Screenshots
 
+<div align="center">
+
 <table>
   <tr>
     <td align="center" width="50%">
@@ -86,6 +90,8 @@ Organize your work, track priorities, and manage your account — all in one cle
 <img src="assets/dashboard.png" alt="Task Dashboard" width="100%" />
 
 *📊 Dashboard — full task management with priority filters and inline task editor*
+
+</div>
 
 ---
 
@@ -517,6 +523,8 @@ Please keep PRs focused on a single feature or bug fix and include a clear descr
 This project is licensed under the [MIT License](LICENSE) — feel free to use, fork, and adapt it.
 
 ---
+
+<div align="center">
 
 Made with ❤️ by **TheHellSide**
 

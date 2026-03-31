@@ -1,116 +1,221 @@
-# Task Manager App (Spring Boot)
+# Task Manager Web App
 
-A simple and powerful Task Manager web application built with **Java** and **Spring Boot**.
-This project is meant to help you manage your tasks and users efficiently!
-Still work in progress...
+> A full-stack task management application built with **Java 24 + Spring Boot** on the backend and plain **HTML / CSS / JavaScript** on the frontend.
 
-### 🧠 Features
+[![Java](https://img.shields.io/badge/Java-24-orange?logo=openjdk)](https://openjdk.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?logo=springboot)](https://spring.io/projects/spring-boot)
+[![MariaDB](https://img.shields.io/badge/MariaDB-10.x-blue?logo=mariadb)](https://mariadb.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-- Create, Read, Update, Delete (CRUD) tasks with APIs
-- Task prioritization (via `TaskPriority`)
-- User registration & login
-- User management with services and repositories
-- Simple front-end using HTML/CSS and JavaScript (no frameworks)
-- Theme toggle with JavaScript
-- Data persistence with Spring Data JPA & SQL
-- Pre-configured SQL schema included
+---
 
-### 📁 Tech Stack
+## 📸 Screenshots
 
-- Java 17+ (Java 24)
-- Spring Boot
-- Spring Data JPA
-- MariaDB (configurable)
-- HTML/CSS/JS
-- Maven
+> 📌 Place your screenshots in the `screenshots/` folder as `login.png`, `dashboard.png`, and `user.png`.
 
-### 💾 Project Structure
+### Login Page
+![Login Page](screenshots/login.png)
 
-```bash
-.
-├── LICENSE
+### Task Dashboard
+![Task Dashboard](screenshots/dashboard.png)
+
+### User Profile
+![User Profile](screenshots/user.png)
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---|---|
+| 🔐 Authentication | Custom token-based auth with HttpOnly cookies; tokens are SHA-256 hashed before DB storage |
+| 👤 User Management | Register, login, update username / email, change password, delete account |
+| ✅ Task CRUD | Create, read, update, delete tasks via a clean REST API |
+| 🎯 Task Priorities | `LOW`, `MEDIUM`, `HIGH`, `EXPIRED`, `DEFAULT` — expired tasks are flagged automatically |
+| 🌓 Theme Toggle | Light / dark mode persisted across sessions via `localStorage` |
+| 🛡️ Input Sanitization | Server-side HTML escaping (Apache Commons Text) + client-side character filtering |
+| 💾 Data Persistence | Spring Data JPA with MariaDB; pre-built `dump.sql` schema included |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Language | Java 24 |
+| Framework | Spring Boot 3 |
+| ORM | Spring Data JPA / Hibernate |
+| Database | MariaDB |
+| Security | BCrypt (passwords) + SHA-256 (tokens) |
+| Frontend | HTML5, CSS3, JavaScript (ES6+), Bootstrap 5.3 |
+| Build | Apache Maven (Maven Wrapper included) |
+
+---
+
+## 📁 Project Structure
+
+```
+task-manager-webapp/
 ├── pom.xml
-├── README.md
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── example/
-│   │   │           └── task_manager_webapp/
-│   │   │               ├── security/
-│   │   │               │   ├── ...
-│   │   │               │   └── tokens/
-│   │   │               │       └── ...
-│   │   │               ├── tasks/
-│   │   │               │   └── ...
-│   │   │               ├── users/
-│   │   │               │   ├── dto/
-│   │   │               │   │   └── ...
-│   │   │               │   └── ...
-│   │   │               └── TaskManagerApplication.java
-│   │   └── resources/
-│   │       ├── static/
-│   │       │   ├── css/
-│   │       │   │   └── ...
-│   │       │   ├── js/
-│   │       │   │   ├── global/
-│   │       │   │   │   └── ...
-│   │       │   │   └── ...
-│   │       │   ├── index.html
-│   │       │   ├── login.html
-│   │       │   ├── register.html
-│   │       │   ├── dashboard.html
-│   │       │   └── user.html
-│   │       ├── application.properties
-│   │       └── dump.sql
-│   └── test
-│       └── ...
-└── target
-    └── ...
+├── dump.sql                              ← database schema
+└── src/
+    ├── main/
+    │   ├── java/com/example/task_manager_webapp/
+    │   │   ├── TaskManagerApplication.java
+    │   │   ├── security/
+    │   │   │   ├── Security.java         ← BCrypt + HTML escaping utilities
+    │   │   │   └── tokens/
+    │   │   │       ├── Token.java
+    │   │   │       ├── TokenService.java
+    │   │   │       ├── TokenRepository.java
+    │   │   │       └── TokenController.java
+    │   │   ├── users/
+    │   │   │   ├── User.java
+    │   │   │   ├── UserService.java
+    │   │   │   ├── UserController.java
+    │   │   │   ├── UserRepository.java
+    │   │   │   ├── UserConfiguration.java
+    │   │   │   └── dto/
+    │   │   │       ├── PasswordRequest.java
+    │   │   │       └── login/
+    │   │   │           ├── LoginRequest.java
+    │   │   │           └── LoginResponse.java
+    │   │   └── tasks/
+    │   │       ├── Task.java
+    │   │       ├── TaskService.java
+    │   │       ├── TaskController.java
+    │   │       ├── TaskRepository.java
+    │   │       ├── TaskPriority.java
+    │   │       ├── TaskConfiguration.java
+    │   │       └── dto/
+    │   │           └── TaskRequestDTO.java
+    │   └── resources/
+    │       ├── application.properties
+    │       ├── dump.sql
+    │       └── static/
+    │           ├── index.html
+    │           ├── login.html
+    │           ├── register.html
+    │           ├── dashboard.html
+    │           ├── user.html
+    │           ├── css/
+    │           │   ├── index-style.css
+    │           │   ├── authentication-style.css
+    │           │   ├── dashboard-style.css
+    │           │   └── user-style.css
+    │           └── js/
+    │               ├── login-script.js
+    │               ├── register-script.js
+    │               ├── dashboard-script.js
+    │               ├── user-script.js
+    │               └── global/
+    │                   ├── logout.js
+    │                   ├── theme-toggle.js
+    │                   ├── input-sanitizer.js
+    │                   └── invalid-char-alert.js
+    └── test/
+        └── java/.../TaskManagerApplicationTests.java
 ```
 
-### 📦 How to Run
+---
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/TheHellSide/task-manager-webapp.git
-   ```
+## 🚀 Getting Started
 
-2. Navigate to the project directory:
-   ```bash
-   cd task-manager-webapp
-   ```
+### Prerequisites
 
-3. Use the **_dump.sql_** file to create the database, only then Run with Maven:
-   ```bash
-   mysql -u root -p task_manager_webapp < dump.sql
-   ./mvnw spring-boot:run
-   ```
-   
-> **REMEMBER**:
-> Change the credentials of the database in **application.properties**. Those are some '**STANDARD**' and **unsecure** credentials.
+- **Java 17+** (tested on Java 24)
+- **Maven** (or use the included `mvnw` wrapper)
+- **MariaDB** server running locally
 
-4. Open your browser and go to:
-   ```
-   http://localhost:8080
-   ```
+### 1. Clone the repository
 
-### 📦 How to Use It?
+```bash
+git clone https://github.com/TheHellSide/task-manager-webapp.git
+cd task-manager-webapp
+```
 
-**If you don't know how to use it, why are you here? ;)**
-But seriously:
-Just register as a new user, log in, and start adding your tasks.
-Toggle between light/dark themes and manage your daily life like a pro.
+### 2. Set up the database
 
-### 📄 License
+```bash
+mysql -u root -p < src/main/resources/dump.sql
+```
+
+### 3. Configure credentials
+
+Open `src/main/resources/application.properties` and update the database credentials:
+
+```properties
+spring.datasource.url=jdbc:mariadb://localhost:3306/task_manager_webapp
+spring.datasource.username=YOUR_DB_USER
+spring.datasource.password=YOUR_DB_PASSWORD
+```
+
+> ⚠️ **Important:** The default credentials (`root` / `admin123`) are for local development only. **Never deploy with these defaults.**
+
+### 4. Build and run
+
+```bash
+./mvnw spring-boot:run
+```
+
+### 5. Open the app
+
+Navigate to [http://localhost:8080](http://localhost:8080) in your browser.
+
+---
+
+## 📡 REST API Overview
+
+All endpoints are prefixed with `/api/v1`. Authentication is handled via an HttpOnly cookie (`authentication-token`) set at login.
+
+### Users — `/api/v1/user`
+
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/` | Register a new user |
+| `POST` | `/in` | Login — sets HttpOnly auth cookie |
+| `POST` | `/out` | Logout — clears auth cookie |
+| `PUT` | `/me` | Update username & email |
+| `DELETE` | `/me` | Delete the authenticated user |
+| `POST` | `/me/verify-password` | Verify current password before sensitive changes |
+| `PUT` | `/me/password` | Change password |
+
+### Tasks — `/api/v1/task`
+
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/` | Get all tasks for the authenticated user |
+| `POST` | `/` | Create a new task |
+| `GET` | `/{id}` | Get a specific task by ID |
+| `PUT` | `/{id}` | Update a task |
+| `DELETE` | `/{id}` | Delete a task |
+| `PUT` | `/{id}/check` | Toggle task completion status |
+
+---
+
+## 🔒 Security Notes
+
+- Passwords are hashed with **BCrypt** before storage.
+- Session tokens are **UUID v4** values hashed with **SHA-256** before being stored in the database; only the raw token is sent to the client via an HttpOnly cookie.
+- Task titles and descriptions are **HTML-escaped** (server-side) on every response to prevent XSS.
+- Client-side input sanitization provides an additional UX-level barrier.
+- Set the `secure` flag to `true` on the auth cookie when deploying over HTTPS.
+- Disable `show-sql=true` and `DEBUG` log levels before going to production.
+
+---
+
+## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
 
-### 👥 Author
+---
 
-Made with by **TheHellSide**
-Follow me on [GitHub](https://github.com/TheHellSide)
+## 👤 Author
 
-### ⭐ Support
+Crafted by **TheHellSide** — follow on [GitHub](https://github.com/TheHellSide)
 
-If you like this project, leave a star — it helps a lot!
+---
+
+## ⭐ Support
+
+If you find this project useful, consider leaving a ⭐ — it really helps!

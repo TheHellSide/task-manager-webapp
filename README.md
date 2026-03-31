@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="src/main/resources/static/images/logo_light.svg" alt="Task Manager Logo" width="120" height="120" />
+<img src="src/main/resources/static/images/logo_light.svg" alt="TaskFlow Logo" width="120" height="120" />
 
-# TASKFLOW
+# TaskFlow
 
-**A full-stack task management application built with Java & Spring Boot.**  
+**A full-stack task management application built with Java & Spring Boot.**
 Organize your work, track priorities, and manage your account — all in one clean, responsive interface.
 
 [![Java](https://img.shields.io/badge/Java-24-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
@@ -16,15 +16,12 @@ Organize your work, track priorities, and manage your account — all in one cle
 
 [Features](#-features) · [Screenshots](#-screenshots) · [Tech Stack](#-tech-stack) · [Quick Start](#-quick-start) · [API Reference](#-api-reference) · [Configuration](#-configuration) · [Security](#-security)
 
-</div>
-
 ---
 
 ## 📋 Overview
 
-**TASKFLOW** is a production-ready, full-stack web application that gives users a central hub for creating, prioritizing, and tracking tasks. Built on **Spring Boot 3.5.4** and backed by **MariaDB**, it follows a clean MVC architecture with a RESTful API backend and a vanilla HTML/CSS/JavaScript frontend. No JavaScript frameworks — just clean, fast, dependency-light code.
+**TaskFlow** is a production-ready, full-stack web application that gives users a central hub for creating, prioritizing, and tracking tasks. Built on **Spring Boot 3.5.4** and backed by **MariaDB**, it follows a clean MVC architecture with a RESTful API backend and a vanilla HTML/CSS/JavaScript frontend. No JavaScript frameworks — just clean, fast, dependency-light code.
 
-Key highlights:
 - 🔐 **Secure by design** — BCrypt hashing, HttpOnly cookies, input sanitization, SameSite CSRF protection
 - 🎨 **Dark / Light theme** — persisted per-browser in `localStorage`
 - 📱 **Fully responsive** — Bootstrap 5 grid adapts from mobile to desktop
@@ -53,7 +50,7 @@ Key highlights:
 | 📝 Registration | Create an account with email and username |
 | 🔑 Login / Logout | Secure session-based authentication |
 | 👤 Profile update | Change username or email address |
-| 🔒 Password change | Requires current password verification before updating |
+| �� Password change | Requires current password verification before updating |
 | 💀 Account deletion | Permanently delete account and all associated data |
 
 ### UI / UX
@@ -69,26 +66,26 @@ Key highlights:
 
 ## 📸 Screenshots
 
-### 🔐 Login Page
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/login.png" alt="Login Page" width="100%" />
+      <br/>
+      <em>🔐 Login — secure authentication with dark/light theme support</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/user-profile.png" alt="User Profile Page" width="100%" />
+      <br/>
+      <em>👤 Profile — manage your account, password, and preferences</em>
+    </td>
+  </tr>
+</table>
 
-<div align="center">
-  <img src="assets/login.png" alt="Login Page" width="85%" />
-  <p><em>Clean authentication interface with light/dark theme support</em></p>
-</div>
+<br/>
 
-### 📊 Task Dashboard
+<img src="assets/dashboard.png" alt="Task Dashboard" width="100%" />
 
-<div align="center">
-  <img src="assets/dashboard.png" alt="Task Dashboard" width="85%" />
-  <p><em>Main dashboard — task list on the left, task editor on the right</em></p>
-</div>
-
-### 👤 User Profile
-
-<div align="center">
-  <img src="assets/user-profile.png" alt="User Profile Page" width="85%" />
-  <p><em>Profile management — update info, change password, or delete account</em></p>
-</div>
+*📊 Dashboard — full task management with priority filters and inline task editor*
 
 ---
 
@@ -123,7 +120,7 @@ Key highlights:
 ```
           ┌────────────────────┐
           │  Client (Browser)  │
-          └────────────────────┘          
+          └────────────────────┘
                     │
                 HTTP/HTTPS
                     ▼
@@ -149,8 +146,8 @@ Key highlights:
 └───────────────────┼───────────────────┘
                     │
          ┌──────────▼─────────┐
-         │      MariaDB -     │
-         │      TASKFLOW      │
+         │      MariaDB —     │
+         │      TaskFlow      │
          └────────────────────┘
 ```
 
@@ -550,6 +547,14 @@ Contributions, issues, and feature requests are welcome!
 Please keep PRs focused on a single feature or bug fix and include a clear description of what changed and why.
 
 ---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE) — feel free to use, fork, and adapt it.
+
+---
+
+Made with ❤️ by **TheHellSide**
 
 [![GitHub](https://img.shields.io/badge/GitHub-TheHellSide-181717?style=for-the-badge&logo=github)](https://github.com/TheHellSide)
 

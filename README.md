@@ -187,7 +187,7 @@ You will land on the homepage. Click **Register** to create your first account, 
 ```
 task-manager-webapp/
 │
-├── assets/                                   # README screenshots
+├── assets/ 
 │   ├── dashboard.png
 │   ├── login.png
 │   └── user-profile.png
@@ -196,32 +196,32 @@ task-manager-webapp/
 │   ├── main/
 │   │   ├── java/com/example/task_manager_webapp/
 │   │   │   │
-│   │   │   ├── TaskManagerApplication.java   # Spring Boot entry point
+│   │   │   ├── TaskManagerApplication.java 
 │   │   │   │
 │   │   │   ├── security/
-│   │   │   │   ├── Security.java             # Input sanitization utilities
+│   │   │   │   ├── Security.java
 │   │   │   │   └── tokens/
-│   │   │   │       ├── Token.java            # Token JPA entity
-│   │   │   │       ├── TokenController.java  # Token REST endpoints
-│   │   │   │       ├── TokenRepository.java  # Token data access
-│   │   │   │       └── TokenService.java     # Token business logic
+│   │   │   │       ├── Token.java 
+│   │   │   │       ├── TokenController.java
+│   │   │   │       ├── TokenRepository.java 
+│   │   │   │       └── TokenService.java 
 │   │   │   │
 │   │   │   ├── tasks/
-│   │   │   │   ├── Task.java                 # Task JPA entity
-│   │   │   │   ├── TaskPriority.java         # Enum: LOW | MEDIUM | HIGH | EXPIRED | DEFAULT
-│   │   │   │   ├── TaskConfiguration.java    # Task bean configuration
-│   │   │   │   ├── TaskController.java       # Task REST endpoints
-│   │   │   │   ├── TaskRepository.java       # Task data access
-│   │   │   │   ├── TaskService.java          # Task business logic
+│   │   │   │   ├── Task.java  
+│   │   │   │   ├── TaskPriority.java  
+│   │   │   │   ├── TaskConfiguration.java  
+│   │   │   │   ├── TaskController.java  
+│   │   │   │   ├── TaskRepository.java 
+│   │   │   │   ├── TaskService.java 
 │   │   │   │   └── dto/
-│   │   │   │       └── TaskRequestDTO.java   # Task request payload
+│   │   │   │       └── TaskRequestDTO.java 
 │   │   │   │
 │   │   │   └── users/
-│   │   │       ├── User.java                 # User JPA entity
-│   │   │       ├── UserConfiguration.java    # User bean configuration
-│   │   │       ├── UserController.java       # User REST endpoints
-│   │   │       ├── UserRepository.java       # User data access
-│   │   │       ├── UserService.java          # User business logic
+│   │   │       ├── User.java
+│   │   │       ├── UserConfiguration.java 
+│   │   │       ├── UserController.java  
+│   │   │       ├── UserRepository.java 
+│   │   │       ├── UserService.java 
 │   │   │       ├── dto/
 │   │   │       │   ├── PasswordRequest.java
 │   │   │       │   ├── login/
@@ -230,17 +230,17 @@ task-manager-webapp/
 │   │   │       │   └── register/
 │   │   │       │       └── RegistrationRequest.java
 │   │   │       └── mapper/
-│   │   │           └── UserMapper.java       # User ↔ DTO mapping
+│   │   │           └── UserMapper.java  
 │   │   │
 │   │   └── resources/
-│   │       ├── application.properties        # App configuration
-│   │       ├── dump.sql                      # Database schema + seed
-│   │       └── static/                       # Served as-is by Spring Boot
-│   │           ├── index.html                # Landing / homepage
-│   │           ├── login.html                # Login page
-│   │           ├── register.html             # Registration page
-│   │           ├── dashboard.html            # Task management dashboard
-│   │           ├── user.html                 # User profile page
+│   │       ├── application.properties    
+│   │       ├── dump.sql
+│   │       └── static/ 
+│   │           ├── index.html  
+│   │           ├── login.html 
+│   │           ├── register.html  
+│   │           ├── dashboard.html 
+│   │           ├── user.html 
 │   │           ├── css/
 │   │           │   ├── index-style.css
 │   │           │   ├── authentication-style.css
@@ -257,17 +257,17 @@ task-manager-webapp/
 │   │           │       ├── input-sanitizer.js
 │   │           │       └── invalid-char-alert.js
 │   │           └── images/
-│   │               ├── logo_light.svg        # Logo — light theme variant
-│   │               ├── logo_dark.svg         # Logo — dark theme variant
+│   │               ├── logo_light.svg  
+│   │               ├── logo_dark.svg
 │   │               └── profile/
-│   │                   └── robot.png         # Default user avatar
+│   │                   └── robot.png 
 │   │
 │   └── test/
 │       └── java/com/example/task_manager_webapp/
 │           └── TaskManagerApplicationTests.java
 │
-├── pom.xml                                   # Maven build descriptor
-├── mvnw / mvnw.cmd                           # Maven wrapper scripts
+├── pom.xml 
+├── mvnw / mvnw.cmd
 └── LICENSE
 ```
 
